@@ -20,13 +20,13 @@ import t6 from "../assets/tt/7194865081681775877.jpg";
 
 const tiktok = "https://www.tiktok.com/@sinuosa.sanchez";
 const instagram = "https://www.instagram.com/sinuosa.sanchez/";
-const videos = [
-  { id: "7683612246425013526", img: t1, title: "Los cuadros perdidos de Klimt, parte 1", tag: "Historia del arte" },
-  { id: "7446082549773864224", img: t2, title: "El cuadro más sangriento del Barroco", tag: "Historia del arte" },
-  { id: "7680618022855347478", img: t3, title: "¿Pincel o paleta? Sé sincera", tag: "Taller" },
-  { id: "7670952693392870678", img: t4, title: "Cuéntame cómo es tu sketchbook", tag: "Taller" },
-  { id: "7192895892561743110", img: t5, title: "Lo que dibujo cuando tengo un bloqueo", tag: "Ilustración" },
-  { id: "7194865081681775877", img: t6, title: "¿A alguien más le pasa esto?", tag: "Ilustración" },
+const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?: string }[] = [
+  { id: "7683612246425013526", img: t1, title: "Los cuadros perdidos de Klimt, parte 1", tag: "Historia del arte", ig: "" },
+  { id: "7446082549773864224", img: t2, title: "El cuadro más sangriento del Barroco", tag: "Historia del arte", ig: "" },
+  { id: "7680618022855347478", img: t3, title: "¿Pincel o paleta? Sé sincera", tag: "Taller", ig: "https://www.instagram.com/p/DcwSRjLsHK9/" },
+  { id: "7670952693392870678", img: t4, title: "Cuéntame cómo es tu sketchbook", tag: "Taller", ig: "https://www.instagram.com/p/DbtPf1QNz8t/" },
+  { id: "7192895892561743110", img: t5, title: "Lo que dibujo cuando tengo un bloqueo", tag: "Ilustración", ig: "" },
+  { id: "7194865081681775877", img: t6, title: "¿A alguien más le pasa esto?", tag: "Ilustración", ig: "" },
 ];
 ---
 <Base title="Inicio">
@@ -104,16 +104,39 @@ const videos = [
     <ul class="reel">
       {videos.map((v, i) => (
         <li class="reel-item" style={`--tilt: ${i % 2 === 0 ? -1.2 : 1.2}deg`}>
-          <a class="reel-card" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">
-            <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
-            <span class="reel-play" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
-            </span>
-            <span class="reel-meta">
-              <span class="reel-tag">{v.tag}</span>
-              <span class="reel-title">{v.title}</span>
-            </span>
-          </a>
+          {v.ig ? (
+            <div class="reel-card has-choice">
+              <button class="reel-open" type="button" aria-haspopup="true" aria-expanded="false" aria-label={`Ver «${v.title}»`}>
+                <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
+                <span class="reel-play" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+                </span>
+                <span class="reel-meta">
+                  <span class="reel-tag">{v.tag}</span>
+                  <span class="reel-title">{v.title}</span>
+                </span>
+              </button>
+              <div class="reel-choice" hidden>
+                <p class="reel-choice-title">¿Dónde lo ves?</p>
+                <a class="button dark" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">TikTok</a>
+                <a class="button" href={v.ig} target="_blank" rel="noopener">Instagram</a>
+                <button class="reel-close" type="button" aria-label="Cerrar">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <a class="reel-card" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">
+              <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
+              <span class="reel-play" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+              </span>
+              <span class="reel-meta">
+                <span class="reel-tag">{v.tag}</span>
+                <span class="reel-title">{v.title}</span>
+              </span>
+            </a>
+          )}
         </li>
       ))}
     </ul>
@@ -134,6 +157,28 @@ const videos = [
     </div>
   </section>
 </Base>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>(".reel-card.has-choice");
+  const closeAll = () => cards.forEach((c) => {
+    c.querySelector<HTMLElement>(".reel-choice")!.hidden = true;
+    c.querySelector<HTMLButtonElement>(".reel-open")!.setAttribute("aria-expanded", "false");
+  });
+  cards.forEach((card) => {
+    const open = card.querySelector<HTMLButtonElement>(".reel-open")!;
+    const panel = card.querySelector<HTMLElement>(".reel-choice")!;
+    open.addEventListener("click", () => {
+      const willOpen = panel.hidden;
+      closeAll();
+      panel.hidden = !willOpen;
+      open.setAttribute("aria-expanded", String(willOpen));
+      if (willOpen) panel.querySelector<HTMLElement>("a")?.focus();
+    });
+    card.querySelector<HTMLButtonElement>(".reel-close")!.addEventListener("click", () => { closeAll(); open.focus(); });
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); });
+  document.addEventListener("click", (e) => { if (!(e.target as HTMLElement).closest(".reel-card.has-choice")) closeAll(); });
+</script>
 
 <style>
   .hero {
@@ -317,6 +362,29 @@ const videos = [
     text-decoration: none;
     color: #fff;
   }
+  .reel-open {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: 0; padding: 0; margin: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  }
+  .reel-open:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; border-radius: 1.4rem; }
+  .reel-choice {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.7rem;
+    padding: 1.2rem;
+    background: rgba(251, 246, 238, 0.94);
+    backdrop-filter: blur(6px);
+    color: var(--ink);
+    animation: fade 0.18s ease-out both;
+  }
+  .reel-choice[hidden] { display: none; }
+  .reel-choice-title { margin: 0 0 0.3rem; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; }
+  .reel-choice .button { width: 100%; text-align: center; }
+  .reel-close {
+    position: absolute; top: 0.75rem; right: 0.75rem;
+    width: 2.2rem; height: 2.2rem; border-radius: 999px; border: 0; background: var(--ink); color: var(--cream);
+    display: grid; place-items: center; cursor: pointer;
+  }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   .reel-card :global(.reel-pic), .reel-card :global(.reel-img) { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .reel-card :global(.reel-img) { object-fit: cover; transition: transform 0.35s ease; }
   .reel-card:hover :global(.reel-img) { transform: scale(1.04); }
