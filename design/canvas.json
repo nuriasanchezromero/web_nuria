@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Home · foto de fondo", "x": 0, "y": 0, "w": 1440, "h": 1720 },
+    { "file": "Mobile.dc.html", "title": "Home · móvil", "x": 1540, "y": 0, "w": 390, "h": 1700 },
+    { "file": "DirectionB.dc.html", "title": "Alternativa · foto enmarcada", "x": 0, "y": 1880, "w": 1440, "h": 900 }
+  ],
+  "annotations": [
+    { "id": "notas", "x": 2020, "y": 0, "w": 300, "text": "Supuestos\n\nLa foto es una sustituta (portada del vídeo de Klimt). Cámbiala por la que quieras: la foto buena, sin play ni subtítulo.\n\n«Qhè?» va como lettering rosa con borde blanco, igual que los subtítulos de sus vídeos.\n\nLa frase del hero y la cita salen de su propio guion (Sinuosa · Klimt). Corrígelas si no es su voz.\n\nEntre corchetes: datos que faltan (email, Instagram)." }
+  ],
+  "launch": { "view": "canvas" }
+}

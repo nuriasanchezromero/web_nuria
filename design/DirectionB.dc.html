@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=DM+Sans:wght@400;500;700&family=Rubik:wght@900&display=swap">
+  <style>
+    body { margin: 0; background: #F6EEF3; }
+    a { color: #241F1C; } a:hover { color: #B4577E; }
+    .sticker { display: inline-block; font-family: 'Rubik', 'Arial Black', Arial, sans-serif; font-weight: 900; letter-spacing: 0.02em; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; background: #F6EEF3; color: #241F1C; font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; position: relative; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 26px 64px;">
+    <a href="#" style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; text-decoration: none; color: #241F1C;">Núria Sánchez</a>
+    <div style="display: flex; align-items: center; gap: 32px;">
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Inicio</a>
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Sobre Núria</a>
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Contacto</a>
+      <a href="#" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #FBF6EE; background: #241F1C; padding: 12px 22px; border-radius: 999px;">Acceder</a>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding: 40px 64px 0; align-items: center;">
+    <div style="grid-column: span 7; display: flex; flex-direction: column; align-items: flex-start; gap: 24px;">
+      <span class="sticker" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em; background: #F8E3A1; color: #5A4300; padding: 8px 14px; border-radius: 999px; transform: rotate(-2deg);">Arte · historias · pintura</span>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 148px; line-height: 0.88; letter-spacing: -0.04em; color: #241F1C;">Núria<br>Sánchez</h1>
+      <p style="margin: 0; font-size: 24px; line-height: 1.4; color: #4F4640; max-width: 520px; text-wrap: pretty;">Historias del arte contadas como un chisme. Cuadros que no existen, artistas que sí.</p>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <a href="#" style="font-size: 16px; font-weight: 700; text-decoration: none; color: #241F1C; background: #F5A9C8; padding: 16px 28px; border-radius: 999px; box-shadow: 0 6px 0 rgba(36, 31, 28, 0.12);">Escríbeme</a>
+        <a href="#" style="font-size: 16px; font-weight: 700; text-decoration: none; color: #241F1C; border: 2px solid #241F1C; padding: 14px 26px; border-radius: 999px;">Sobre Núria</a>
+      </div>
+    </div>
+
+    <div style="grid-column: span 5; position: relative; height: 640px;">
+      <div style="position: absolute; left: 28px; top: 26px; width: 440px; height: 580px; background: #BFE8D6; border-radius: 36px; transform: rotate(4deg);"></div>
+      <div style="position: absolute; left: 8px; top: 10px; width: 440px; height: 580px; background: #D9D2F4; border-radius: 36px; transform: rotate(-3deg);"></div>
+      <img src="hero.jpg" alt="Núria en su estudio" style="position: absolute; left: 20px; top: 0; width: 440px; height: 580px; object-fit: cover; object-position: 50% 15%; border-radius: 36px; display: block; box-shadow: 0 24px 60px rgba(36, 31, 28, 0.18);">
+      <div class="sticker" style="position: absolute; right: -24px; bottom: 18px; font-size: 120px; line-height: 1; color: #F5A9C8; -webkit-text-stroke: 6px #FFFFFF; paint-order: stroke fill; transform: rotate(-10deg); text-shadow: 0 10px 0 rgba(36, 31, 28, 0.14);">Qhè?</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

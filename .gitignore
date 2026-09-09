@@ -28,3 +28,7 @@ pnpm-debug.log*
 
 # unrelated media project living in this folder
 Sinuosa_Klimt_CapCut_v3/
+
+# seeded design canvas output (regenerated from design/*.dc.html)
+design/*.html
+!design/*.dc.html

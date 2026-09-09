@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=DM+Sans:wght@400;500;700&family=Rubik:wght@900&display=swap">
+  <style>
+    body { margin: 0; background: #FBF6EE; }
+    a { color: #241F1C; } a:hover { color: #B4577E; }
+    .sticker { display: inline-block; font-family: 'Rubik', 'Arial Black', Arial, sans-serif; font-weight: 900; letter-spacing: 0.02em; }
+  </style>
+</helmet>
+<div style="width: 1440px; background: #FBF6EE; color: #241F1C; font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; position: relative; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 26px 64px; position: relative; z-index: 3;">
+    <a href="#" style="font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; text-decoration: none; color: #241F1C;">Núria Sánchez</a>
+    <div style="display: flex; align-items: center; gap: 32px;">
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Inicio</a>
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Sobre Núria</a>
+      <a href="#" style="font-size: 15px; font-weight: 500; text-decoration: none; color: #241F1C;">Contacto</a>
+      <a href="#" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #FBF6EE; background: #241F1C; padding: 12px 22px; border-radius: 999px;">Acceder</a>
+    </div>
+  </div>
+
+  <div style="position: relative; height: 780px; margin-top: -90px;">
+    <img src="hero.jpg" alt="Núria en su estudio" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block;">
+    <div style="position: absolute; inset: 0; background: rgba(245, 169, 200, 0.14);"></div>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(180deg, rgba(251, 246, 238, 0) 0%, rgba(251, 246, 238, 0.86) 58%, #FBF6EE 100%);"></div>
+
+    <div class="sticker" style="position: absolute; right: 128px; top: 150px; font-size: 168px; line-height: 1; color: {{accent}}; -webkit-text-stroke: 7px #FFFFFF; paint-order: stroke fill; transform: rotate(-9deg); text-shadow: 0 14px 0 rgba(36, 31, 28, 0.14); z-index: 2;">Qhè?</div>
+
+    <div style="position: absolute; left: 64px; bottom: 56px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; z-index: 2; max-width: 860px;">
+      <span class="sticker" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em; background: #BFE8D6; color: #1E4D3B; padding: 8px 14px; border-radius: 999px; transform: rotate(-2deg);">Arte · historias · pintura</span>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 136px; line-height: 0.9; letter-spacing: -0.035em; color: #241F1C;">Núria<br>Sánchez</h1>
+      <p style="margin: 0; font-size: 24px; line-height: 1.4; color: #4F4640; max-width: 560px; text-wrap: pretty;">Historias del arte contadas como un chisme. Cuadros que no existen, artistas que sí.</p>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <a href="#" style="font-size: 16px; font-weight: 700; text-decoration: none; color: #241F1C; background: {{accent}}; padding: 16px 28px; border-radius: 999px; box-shadow: 0 6px 0 rgba(36, 31, 28, 0.12);">Escríbeme</a>
+        <a href="#" style="font-size: 16px; font-weight: 700; text-decoration: none; color: #241F1C; border: 2px solid #241F1C; padding: 14px 26px; border-radius: 999px;">Sobre Núria</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 104px 64px 88px; background-image: radial-gradient(#E9DCCB 1.2px, transparent 1.2px); background-size: 22px 22px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start;">
+    <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 16px; align-items: flex-start;">
+      <span class="sticker" style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; background: #F8E3A1; color: #5A4300; padding: 10px 14px; border-radius: 6px; transform: rotate(-4deg);">Cuadros que NO EXISTEN</span>
+      <span style="font-size: 14px; color: #6E655E;">Sinuosa · Klimt</span>
+    </div>
+    <div style="grid-column: span 9; display: flex; flex-direction: column; gap: 28px; align-items: flex-start;">
+      <p style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 56px; line-height: 1.05; letter-spacing: -0.03em; color: #241F1C; text-wrap: balance;">«El año pasado me enamoré de un cuadro que no existe.»</p>
+      <a href="#" style="display: inline-flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; text-decoration: none; color: #241F1C;">
+        Ver la historia
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+  </div>
+
+  <div style="padding: 0 64px 96px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px;">
+    <div style="position: relative; background: #D9D2F4; border-radius: 28px; padding: 44px 44px 40px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start;">
+      <span class="sticker" style="position: absolute; top: -14px; left: 28px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; background: #241F1C; color: #FBF6EE; padding: 7px 12px; border-radius: 999px; transform: rotate(-3deg);">Zona privada</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 34px; line-height: 1.05; letter-spacing: -0.02em; color: #241F1C;">Entra con tu email. Sin contraseñas.</h2>
+      <p style="margin: 0 0 8px; font-size: 17px; line-height: 1.5; color: #4F4640; max-width: 440px;">Te mandamos un enlace y estás dentro. Lo que hay ahí es solo para ti.</p>
+      <a href="#" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #FBF6EE; background: #241F1C; padding: 14px 24px; border-radius: 999px;">Acceder</a>
+    </div>
+    <div style="position: relative; background: #BFE8D6; border-radius: 28px; padding: 44px 44px 40px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start;">
+      <span class="sticker" style="position: absolute; top: -14px; left: 28px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; background: #241F1C; color: #FBF6EE; padding: 7px 12px; border-radius: 999px; transform: rotate(2deg);">Contacto</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 34px; line-height: 1.05; letter-spacing: -0.02em; color: #241F1C;">¿Hablamos?</h2>
+      <p style="margin: 0 0 8px; font-size: 17px; line-height: 1.5; color: #4F4640; max-width: 440px;">[EMAIL DE NÚRIA] · [INSTAGRAM]</p>
+      <a href="#" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #241F1C; border: 2px solid #241F1C; padding: 12px 22px; border-radius: 999px;">Escríbeme</a>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 28px 64px 36px; border-top: 1.5px solid #E9DCCB;">
+    <span style="font-size: 14px; color: #6E655E;">© 2026 Núria Sánchez</span>
+    <div style="display: flex; gap: 24px;">
+      <a href="#" style="font-size: 14px; text-decoration: none; color: #6E655E;">Sobre Núria</a>
+      <a href="#" style="font-size: 14px; text-decoration: none; color: #6E655E;">Contacto</a>
+      <a href="#" style="font-size: 14px; text-decoration: none; color: #6E655E;">Acceder</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#F5A9C8","options":["#F5A9C8","#BFE8D6","#F8E3A1","#D9D2F4"]},"$preview":{"width":1440,"height":1720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#F5A9C8' };
+  }
+}
+</script>
+</body>
+</html>
