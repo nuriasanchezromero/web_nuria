@@ -1,25 +1,23 @@
 import { createServerClient, parseCookieHeader } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
+import { env } from "cloudflare:workers";
 
 type Ctx = {
   request: Request;
   cookies: AstroCookies;
-  locals: App.Locals;
 };
 
-type PublicEnv = { PUBLIC_SUPABASE_URL?: string; PUBLIC_SUPABASE_ANON_KEY?: string };
-
-/** Reads the public Supabase settings from the Cloudflare runtime, falling back to build-time env in dev. */
-export function getSupabaseConfig(locals: App.Locals) {
-  const runtimeEnv = (locals as { runtime?: { env?: PublicEnv } }).runtime?.env ?? {};
+/** Public Supabase settings, read from the Cloudflare runtime (wrangler.jsonc vars / .dev.vars). */
+export function getSupabaseConfig() {
+  const runtimeEnv = env as unknown as Record<string, string | undefined>;
   const url = runtimeEnv.PUBLIC_SUPABASE_URL || import.meta.env.PUBLIC_SUPABASE_URL || "";
   const anonKey = runtimeEnv.PUBLIC_SUPABASE_ANON_KEY || import.meta.env.PUBLIC_SUPABASE_ANON_KEY || "";
   return { url, anonKey, configured: Boolean(url && anonKey) };
 }
 
 /** One Supabase client per request, with the session stored in cookies. */
-export function createSupabase({ request, cookies, locals }: Ctx) {
-  const { url, anonKey, configured } = getSupabaseConfig(locals);
+export function createSupabase({ request, cookies }: Ctx) {
+  const { url, anonKey, configured } = getSupabaseConfig();
   if (!configured) return null;
 
   return createServerClient(url, anonKey, {

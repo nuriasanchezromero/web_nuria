@@ -9,7 +9,7 @@ if (supabase) {
   if (data.user) return Astro.redirect("/cuenta");
 }
 
-const { configured } = getSupabaseConfig(Astro.locals);
+const { configured } = getSupabaseConfig();
 const sent = Astro.url.searchParams.get("enviado") === "1";
 const error = Astro.url.searchParams.get("error");
 const messages: Record<string, string> = {
