@@ -1,15 +1,18 @@
 ---
+import { Font } from "astro:assets";
+
 interface Props {
   title: string;
   description?: string;
 }
-const { title, description = "Nuria Sánchez Romero" } = Astro.props;
+const { title, description = "Núria Sánchez. Historias del arte contadas como un chisme." } = Astro.props;
 const path = Astro.url.pathname;
 const nav = [
   { href: "/", label: "Inicio" },
-  { href: "/sobre", label: "Sobre Nuria" },
+  { href: "/sobre", label: "Sobre Núria" },
   { href: "/contacto", label: "Contacto" },
 ];
+const isHome = path === "/";
 ---
 <!doctype html>
 <html lang="es">
@@ -19,116 +22,217 @@ const nav = [
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} · Nuria Sánchez Romero</title>
+    <meta property="og:title" content={`${title} · Núria Sánchez`} />
+    <meta property="og:description" content={description} />
+    <title>{title} · Núria Sánchez</title>
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-body" preload />
+    <Font cssVariable="--font-sticker" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="/">Nuria Sánchez Romero</a>
+    <header class:list={["site-header", { "over-hero": isHome }]}>
+      <a class="brand" href="/">Núria Sánchez</a>
       <nav aria-label="Principal">
         {nav.map((item) => (
           <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
         ))}
-        <a class="cta" href="/cuenta">Acceder</a>
+        <a class="pill" href="/cuenta">Acceder</a>
       </nav>
     </header>
     <main>
       <slot />
     </main>
     <footer class="site-footer">
-      <p>© {new Date().getFullYear()} Nuria Sánchez Romero</p>
+      <span>© {new Date().getFullYear()} Núria Sánchez</span>
+      <nav aria-label="Pie">
+        <a href="/sobre">Sobre Núria</a>
+        <a href="/contacto">Contacto</a>
+        <a href="/cuenta">Acceder</a>
+      </nav>
     </footer>
   </body>
 </html>
 
 <style is:global>
   :root {
-    --bg: #faf7f2;
-    --ink: #1f1a17;
-    --muted: #6b625b;
-    --accent: #8a5a3c;
-    --accent-ink: #ffffff;
-    --line: #e6ddd3;
-    --max: 68rem;
+    --cream: #fbf6ee;
+    --ink: #241f1c;
+    --body: #4f4640;
+    --muted: #6e655e;
+    --line: #e9dccb;
+    --pink: #f5a9c8;
+    --mint: #bfe8d6;
+    --butter: #f8e3a1;
+    --lavender: #d9d2f4;
+    --max: 82rem;
+    --gutter: clamp(1.25rem, 4.5vw, 4rem);
   }
   * { box-sizing: border-box; }
-  html { color-scheme: light; }
+  html { color-scheme: light; scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: var(--bg);
+    background: var(--cream);
     color: var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.6;
+    font-family: var(--font-body);
+    line-height: 1.55;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3 {
-    font-family: ui-serif, Georgia, "Times New Roman", serif;
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
     margin: 0 0 0.5em;
+    text-wrap: balance;
   }
-  h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
-  h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
-  p { margin: 0 0 1em; }
-  a { color: var(--accent); }
-  main { flex: 1; width: min(100% - 2.5rem, var(--max)); margin: 0 auto; padding: 3rem 0; }
+  h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  p { margin: 0 0 1em; text-wrap: pretty; }
+  a { color: var(--ink); }
+  a:hover { color: #b4577e; }
+  main { flex: 1; }
+  .wrap { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
+
   .site-header {
-    width: min(100% - 2.5rem, var(--max));
-    margin: 0 auto;
-    padding: 1.25rem 0;
+    width: min(100% - 2 * var(--gutter), var(--max));
+    margin-inline: auto;
+    padding: 1.4rem 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    border-bottom: 1px solid var(--line);
+    position: relative;
+    z-index: 3;
   }
-  .brand { color: var(--ink); text-decoration: none; font-family: ui-serif, Georgia, serif; font-size: 1.2rem; }
-  .site-header nav { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
-  .site-header nav a { color: var(--muted); text-decoration: none; }
-  .site-header nav a[aria-current="page"] { color: var(--ink); }
-  .site-header nav a.cta {
-    color: var(--accent-ink);
-    background: var(--accent);
-    padding: 0.45rem 0.95rem;
-    border-radius: 999px;
-  }
-  .site-footer {
-    width: min(100% - 2.5rem, var(--max));
-    margin: 0 auto;
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  .lede { font-size: 1.2rem; color: var(--muted); max-width: 40rem; }
-  .button {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--accent-ink);
-    padding: 0.7rem 1.3rem;
+  .site-header.over-hero { margin-bottom: -5.5rem; }
+  .brand { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
+  .site-header nav { display: flex; gap: clamp(0.9rem, 2.4vw, 2rem); align-items: center; flex-wrap: wrap; }
+  .site-header nav a { font-weight: 500; font-size: 0.95rem; text-decoration: none; color: var(--ink); }
+  .site-header nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-thickness: 2px; text-decoration-color: var(--pink); }
+  .pill, .site-header nav a.pill {
+    font-weight: 700;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.7rem 1.35rem;
     border-radius: 999px;
     text-decoration: none;
-    border: 0;
-    font: inherit;
-    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
   }
-  .button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-  .card { border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; background: #fff; }
-  .grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
-  .narrow { max-width: 34rem; }
-  form.stack { display: grid; gap: 0.75rem; }
+  .pill:hover, .site-header nav a.pill:hover { color: var(--cream); background: #3a322d; transform: translateY(-1px); }
+
+  .sticker {
+    display: inline-block;
+    font-family: var(--font-sticker);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+  .tag {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    background: var(--mint);
+    color: #1e4d3b;
+    transform: rotate(-2deg);
+  }
+  .button {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--pink);
+    padding: 0.95rem 1.7rem;
+    border-radius: 999px;
+    border: 0;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 6px 0 rgba(36, 31, 28, 0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .button:hover { color: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 0 rgba(36, 31, 28, 0.14); }
+  .button:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(36, 31, 28, 0.14); }
+  .button.secondary { background: transparent; border: 2px solid var(--ink); box-shadow: none; padding: calc(0.95rem - 2px) calc(1.7rem - 2px); }
+  .button.secondary:hover { box-shadow: none; }
+  .button.dark { background: var(--ink); color: var(--cream); box-shadow: none; }
+  .button.dark:hover { color: var(--cream); box-shadow: none; }
+
+  .card {
+    position: relative;
+    border-radius: 1.75rem;
+    padding: 2.6rem 2.4rem 2.2rem;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .card > .label {
+    position: absolute;
+    top: -0.85rem;
+    left: 1.6rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    transform: rotate(-3deg);
+  }
+  .card p { color: var(--body); max-width: 28rem; }
+  .card.lavender { background: var(--lavender); }
+  .card.mint { background: var(--mint); }
+  .card.butter { background: var(--butter); }
+
+  .page { padding: clamp(3rem, 8vw, 6rem) 0; }
+  .lede { font-size: clamp(1.1rem, 1.6vw, 1.35rem); color: var(--body); max-width: 36rem; }
+  .narrow { max-width: 38rem; }
+  .dots {
+    background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+  form.stack { display: grid; gap: 0.75rem; max-width: 26rem; }
   label { font-weight: 500; }
   input[type="email"], input[type="text"] {
     width: 100%;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid var(--line);
-    border-radius: 0.6rem;
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--line);
+    border-radius: 0.9rem;
     font: inherit;
     background: #fff;
   }
-  .notice { padding: 0.9rem 1rem; border-radius: 0.75rem; background: #fff5e8; border: 1px solid #f0d9bd; }
-  .notice.error { background: #fdecec; border-color: #f2c1c1; }
+  input:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; border-color: var(--ink); }
+  .notice { padding: 0.9rem 1rem; border-radius: 1rem; background: var(--butter); color: #5a4300; }
+  .notice.error { background: #fdd9e6; color: #7a2648; }
+
+  .site-footer {
+    width: min(100% - 2 * var(--gutter), var(--max));
+    margin-inline: auto;
+    padding: 1.6rem 0 2.2rem;
+    border-top: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .site-footer nav { display: flex; gap: 1.4rem; }
+  .site-footer a { color: var(--muted); text-decoration: none; }
+  .site-footer a:hover { color: var(--ink); }
+
+  @media (max-width: 560px) {
+    .site-header nav a[href="/"] { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>

@@ -1,32 +1,223 @@
 ---
+import { Picture } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import hero from "../assets/hero.jpg";
 ---
 <Base title="Inicio">
-  <section>
-    <h1>Nuria Sánchez Romero</h1>
-    <p class="lede">
-      Texto provisional. Aquí irá una frase que diga a qué se dedica Nuria y qué puede
-      hacer por quien llega a esta página.
-    </p>
-    <p>
-      <a class="button" href="/contacto">Contactar</a>
-      <a class="button secondary" href="/sobre">Conocer a Nuria</a>
-    </p>
+  <section class="hero" aria-label="Presentación">
+    <Picture
+      src={hero}
+      alt=""
+      widths={[720, 1080]}
+      sizes="100vw"
+      formats={["avif", "webp"]}
+      loading="eager"
+      fetchpriority="high"
+      class="hero-img"
+      pictureAttributes={{ class: "hero-pic" }}
+    />
+    <div class="tint" aria-hidden="true"></div>
+    <div class="veil veil-top" aria-hidden="true"></div>
+    <div class="veil veil-bottom" aria-hidden="true"></div>
+    <div class="veil veil-side" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="sticker qhe" aria-hidden="true">Qhè?</div>
+
+    <div class="wrap hero-copy">
+      <span class="sticker tag">Arte · historias · pintura</span>
+      <h1><span>Núria</span><span>Sánchez</span></h1>
+      <p>Historias del arte contadas como un chisme. Cuadros que no existen, artistas que sí.</p>
+      <div class="actions">
+        <a class="button" href="/contacto">Escríbeme</a>
+        <a class="button secondary" href="/sobre">Sobre Núria</a>
+      </div>
+    </div>
   </section>
 
-  <section class="grid" style="margin-top: 3rem;">
-    <div class="card">
-      <h2>Qué ofrezco</h2>
-      <p>Bloque provisional para describir el servicio principal.</p>
+  <section class="quote dots">
+    <div class="wrap quote-grid">
+      <div class="quote-aside">
+        <span class="sticker chip">Cuadros que NO EXISTEN</span>
+        <span class="quote-source">Sinuosa · Klimt</span>
+      </div>
+      <div class="quote-body">
+        <p class="quote-text">«El año pasado me enamoré de un cuadro que no existe.»</p>
+        <a class="arrow-link" href="/sobre">
+          Ver la historia
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
     </div>
-    <div class="card">
-      <h2>Cómo trabajo</h2>
-      <p>Bloque provisional para explicar el método o el enfoque.</p>
+  </section>
+
+  <section class="wrap cards">
+    <div class="card lavender">
+      <span class="sticker label">Zona privada</span>
+      <h2>Entra con tu email. Sin contraseñas.</h2>
+      <p>Te mandamos un enlace y estás dentro. Lo que hay ahí es solo para ti.</p>
+      <a class="button dark" href="/cuenta">Acceder</a>
     </div>
-    <div class="card">
-      <h2>Zona privada</h2>
-      <p>Acceso para clientes con contenidos y gestión personal.</p>
-      <a href="/cuenta">Entrar</a>
+    <div class="card mint">
+      <span class="sticker label">Contacto</span>
+      <h2>¿Hablamos?</h2>
+      <p>Escríbeme y te respondo lo antes posible.</p>
+      <a class="button secondary" href="/contacto">Escríbeme</a>
     </div>
   </section>
 </Base>
+
+<style>
+  .hero {
+    position: relative;
+    height: clamp(34rem, 88vh, 44rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-pic, .hero :global(.hero-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .hero :global(.hero-img) {
+    object-fit: cover;
+    object-position: 0% 12%;
+    animation: settle 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .tint { position: absolute; inset: 0; background: rgba(245, 169, 200, 0.1); }
+  .veil { position: absolute; }
+  .veil-top { left: 0; right: 0; top: 0; height: 10rem; background: linear-gradient(180deg, rgba(251, 246, 238, 0.9), rgba(251, 246, 238, 0)); }
+  .veil-bottom { left: 0; right: 0; bottom: 0; height: 72%; background: linear-gradient(180deg, rgba(251, 246, 238, 0) 0%, rgba(251, 246, 238, 0.86) 52%, var(--cream) 100%); }
+  .veil-side { display: none; }
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .qhe {
+    position: absolute;
+    right: 0.75rem;
+    top: 6.5rem;
+    font-size: clamp(5rem, 22vw, 6.5rem);
+    line-height: 1;
+    color: var(--pink);
+    -webkit-text-stroke: 0.045em #fff;
+    paint-order: stroke fill;
+    text-shadow: 0 0.08em 0 rgba(36, 31, 28, 0.14);
+    transform: rotate(-9deg);
+    z-index: 2;
+    animation: pop 0.9s cubic-bezier(0.2, 1.4, 0.3, 1) 0.55s both;
+  }
+
+  .hero-copy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(1.75rem, 5vh, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.9rem, 2vh, 1.4rem);
+    z-index: 2;
+  }
+  .hero-copy .tag { animation: rise 0.7s ease-out 0.15s both; }
+  .hero-copy h1 {
+    font-size: clamp(3.6rem, 17vw, 4.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    margin: 0;
+    text-shadow: 0 0 22px rgba(251, 246, 238, 0.9), 0 2px 0 rgba(251, 246, 238, 0.9);
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-copy h1 span { display: block; animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .hero-copy h1 span:nth-child(1) { animation-delay: 0.25s; }
+  .hero-copy h1 span:nth-child(2) { animation-delay: 0.38s; }
+  .hero-copy p {
+    font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+    color: var(--body);
+    max-width: 32rem;
+    margin: 0;
+    animation: rise 0.7s ease-out 0.5s both;
+  }
+  .actions { display: flex; gap: 0.85rem; flex-wrap: wrap; width: 100%; flex-direction: column; animation: rise 0.7s ease-out 0.62s both; }
+  .actions .button { text-align: center; }
+
+  @media (min-width: 721px) {
+    .hero { height: clamp(36rem, 92vh, 50rem); }
+    .hero :global(.hero-img) { object-position: 50% 18%; }
+    .veil-bottom { height: 46%; background: linear-gradient(180deg, rgba(251, 246, 238, 0) 0%, rgba(251, 246, 238, 0.7) 60%, var(--cream) 100%); }
+    .veil-side {
+      display: block;
+      top: 0; bottom: 0; right: 0; left: 30%;
+      background: linear-gradient(90deg, rgba(251, 246, 238, 0) 0%, rgba(251, 246, 238, 0.82) 42%, rgba(251, 246, 238, 0.92) 100%);
+    }
+    .qhe {
+      right: auto;
+      left: clamp(24rem, 40vw, 36rem);
+      top: clamp(5.5rem, 13vh, 8rem);
+      font-size: clamp(6rem, 11vw, 10rem);
+    }
+    .hero-copy {
+      left: 50%;
+      right: var(--gutter);
+      bottom: clamp(2rem, 6vh, 4rem);
+    }
+    .hero-copy h1 { font-size: clamp(4.5rem, 9vw, 8rem); }
+    .actions { width: auto; flex-direction: row; }
+  }
+
+  .quote { padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5.5rem); }
+  .quote-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+  .quote-aside { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .chip {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--butter);
+    color: #5a4300;
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    transform: rotate(-4deg);
+  }
+  .quote-source { font-size: 0.9rem; color: var(--muted); }
+  .quote-body { display: flex; flex-direction: column; gap: 1.6rem; align-items: flex-start; }
+  .quote-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 4vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .arrow-link { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; }
+  .arrow-link svg { transition: transform 0.15s ease; }
+  .arrow-link:hover svg { transform: translateX(4px); }
+
+  .cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+    padding: 0.5rem 0 clamp(3.5rem, 8vw, 6rem);
+  }
+  @media (min-width: 721px) {
+    .quote-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); }
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: rotate(-22deg) scale(0.6); } to { opacity: 1; transform: rotate(-9deg) scale(1); } }
+  @keyframes settle { from { transform: scale(1.06); } to { transform: none; } }
+</style>

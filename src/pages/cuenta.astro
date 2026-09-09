@@ -13,7 +13,7 @@ const user = data.user;
 const since = user.created_at ? new Date(user.created_at).toLocaleDateString("es-ES") : "";
 ---
 <Base title="Tu cuenta">
-  <section class="narrow">
+  <section class="wrap page narrow">
     <h1>Hola</h1>
     <p class="lede">Has entrado como <strong>{user.email}</strong>.</p>
     <div class="card">
