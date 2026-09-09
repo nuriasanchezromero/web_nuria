@@ -9,6 +9,25 @@ const wideWebp = await getImage({ src: heroWide, widths: [1440, 2000, 2752], for
 const portraitAvif = await getImage({ src: heroPortrait, widths: [640, 928], format: "avif" });
 const portraitWebp = await getImage({ src: heroPortrait, widths: [640, 928], format: "webp" });
 const fallback = await getImage({ src: heroWide, width: 1440, format: "jpg" });
+
+import { Picture } from "astro:assets";
+import t1 from "../assets/tt/7683612246425013526.jpg";
+import t2 from "../assets/tt/7446082549773864224.jpg";
+import t3 from "../assets/tt/7680618022855347478.jpg";
+import t4 from "../assets/tt/7670952693392870678.jpg";
+import t5 from "../assets/tt/7192895892561743110.jpg";
+import t6 from "../assets/tt/7194865081681775877.jpg";
+
+const tiktok = "https://www.tiktok.com/@sinuosa.sanchez";
+const instagram = "https://www.instagram.com/sinuosa.sanchez/";
+const videos = [
+  { id: "7683612246425013526", img: t1, title: "Los cuadros perdidos de Klimt, parte 1", tag: "Historia del arte" },
+  { id: "7446082549773864224", img: t2, title: "El cuadro más sangriento del Barroco", tag: "Historia del arte" },
+  { id: "7680618022855347478", img: t3, title: "¿Pincel o paleta? Sé sincera", tag: "Taller" },
+  { id: "7670952693392870678", img: t4, title: "Cuéntame cómo es tu sketchbook", tag: "Taller" },
+  { id: "7192895892561743110", img: t5, title: "Lo que dibujo cuando tengo un bloqueo", tag: "Ilustración" },
+  { id: "7194865081681775877", img: t6, title: "¿A alguien más le pasa esto?", tag: "Ilustración" },
+];
 ---
 <Base title="Inicio">
   <section class="hero" aria-label="Presentación">
@@ -37,9 +56,9 @@ const fallback = await getImage({ src: heroWide, width: 1440, format: "jpg" });
     <div class="sticker qhe" aria-hidden="true">Qhè?</div>
 
     <div class="wrap hero-copy">
-      <span class="sticker tag">Arte · historias · pintura</span>
+      <span class="sticker tag">Ilustradora · Opino en rosa pastel</span>
       <h1><span>Núria</span><span>Sánchez</span></h1>
-      <p>Historias del arte contadas como un chisme. Cuadros que no existen, artistas que sí.</p>
+      <p>La cara B de la historia del arte. Ilustradora de intimidad inquietante.</p>
       <div class="actions">
         <a class="button" href="/contacto">Escríbeme</a>
         <a class="button secondary" href="/sobre">Sobre Núria</a>
@@ -61,6 +80,43 @@ const fallback = await getImage({ src: heroWide, width: 1440, format: "jpg" });
         </a>
       </div>
     </div>
+  </section>
+
+  <section class="wrap stories" aria-labelledby="stories-title">
+    <div class="stories-head">
+      <div>
+        <span class="sticker chip pink">TikTok · Instagram</span>
+        <h2 id="stories-title">La cara B, en vídeo</h2>
+        <p>Historias del arte y cosas de taller, en vertical y sin filtro. Las últimas, aquí; el resto, en sus redes.</p>
+      </div>
+      <div class="follow">
+        <a class="button dark" href={tiktok} target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2.3 1.7 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.3v6.4a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.7 2.4V3h3.1Z"/></svg>
+          @sinuosa.sanchez
+        </a>
+        <a class="button secondary" href={instagram} target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+
+    <ul class="reel">
+      {videos.map((v, i) => (
+        <li class="reel-item" style={`--tilt: ${i % 2 === 0 ? -1.2 : 1.2}deg`}>
+          <a class="reel-card" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">
+            <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
+            <span class="reel-play" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+            <span class="reel-meta">
+              <span class="reel-tag">{v.tag}</span>
+              <span class="reel-title">{v.title}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <section class="wrap cards">
@@ -227,6 +283,65 @@ const fallback = await getImage({ src: heroWide, width: 1440, format: "jpg" });
   @media (min-width: 721px) {
     .quote-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); }
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .stories { padding: 0.5rem 0 clamp(3rem, 7vw, 5.5rem); }
+  .stories-head { display: flex; flex-direction: column; gap: 1.25rem; align-items: flex-start; margin-bottom: 1.75rem; }
+  .stories-head h2 { margin: 0.9rem 0 0.4rem; }
+  .stories-head p { margin: 0; color: var(--body); max-width: 34rem; }
+  .chip.pink { background: var(--pink); color: #5a1f3b; }
+  .follow { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .follow .button { display: inline-flex; align-items: center; gap: 0.55rem; }
+  .reel {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0 1rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .reel::-webkit-scrollbar { display: none; }
+  .reel-item { flex: 0 0 min(70vw, 16rem); scroll-snap-align: start; transform: rotate(var(--tilt)); transition: transform 0.2s ease; }
+  .reel-item:hover { transform: rotate(0deg) translateY(-4px); }
+  .reel-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 9 / 16;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    background: var(--lavender);
+    box-shadow: 0 10px 0 rgba(36, 31, 28, 0.08);
+    text-decoration: none;
+    color: #fff;
+  }
+  .reel-card :global(.reel-pic), .reel-card :global(.reel-img) { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .reel-card :global(.reel-img) { object-fit: cover; transition: transform 0.35s ease; }
+  .reel-card:hover :global(.reel-img) { transform: scale(1.04); }
+  .reel-play {
+    position: absolute; top: 0.85rem; right: 0.85rem;
+    width: 2.4rem; height: 2.4rem; border-radius: 999px;
+    background: rgba(251, 246, 238, 0.92); color: var(--ink);
+    display: grid; place-items: center;
+  }
+  .reel-meta {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 3.6rem 1rem 1rem;
+    display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-start;
+    background: linear-gradient(180deg, rgba(36, 31, 28, 0) 0%, rgba(36, 31, 28, 0.55) 45%, rgba(36, 31, 28, 0.86) 100%);
+  }
+  .reel-tag { font-family: var(--font-sticker); font-weight: 900; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--butter); color: #5a4300; padding: 0.3rem 0.5rem; border-radius: 4px; transform: rotate(-2deg); }
+  .reel-title { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; line-height: 1.1; letter-spacing: -0.01em; text-shadow: 0 1px 8px rgba(0,0,0,0.35); text-wrap: balance; }
+
+  @media (min-width: 721px) {
+    .stories-head { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+    .reel { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.1rem; overflow: visible; }
+    .reel-item { flex: none; }
+  }
+  @media (min-width: 721px) and (max-width: 1100px) {
+    .reel { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
 
   @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
