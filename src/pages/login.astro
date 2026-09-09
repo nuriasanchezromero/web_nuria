@@ -1,0 +1,42 @@
+---
+export const prerender = false;
+import Base from "../layouts/Base.astro";
+import { createSupabase, getSupabaseConfig } from "../lib/supabase";
+
+const supabase = createSupabase(Astro);
+if (supabase) {
+  const { data } = await supabase.auth.getUser();
+  if (data.user) return Astro.redirect("/cuenta");
+}
+
+const { configured } = getSupabaseConfig(Astro.locals);
+const sent = Astro.url.searchParams.get("enviado") === "1";
+const error = Astro.url.searchParams.get("error");
+const messages: Record<string, string> = {
+  email: "Escribe un email válido.",
+  envio: "No hemos podido enviar el enlace. Inténtalo de nuevo en un momento.",
+  enlace: "El enlace no es válido o ha caducado. Pide uno nuevo.",
+  config: "El acceso todavía no está activado.",
+};
+---
+<Base title="Acceder">
+  <section class="narrow">
+    <h1>Acceder</h1>
+    <p class="lede">Te enviamos un enlace a tu email. Sin contraseñas.</p>
+
+    {sent && (
+      <p class="notice">Enlace enviado. Revisa tu bandeja de entrada (y la carpeta de spam).</p>
+    )}
+    {error && <p class="notice error">{messages[error] ?? "Ha ocurrido un error."}</p>}
+
+    {configured ? (
+      <form class="stack" method="post" action="/api/auth/login">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="tu@email.com" />
+        <button class="button" type="submit">Enviarme el enlace</button>
+      </form>
+    ) : (
+      <p class="notice">La zona privada estará disponible muy pronto.</p>
+    )}
+  </section>
+</Base>

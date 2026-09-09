@@ -1,0 +1,28 @@
+---
+export const prerender = false;
+import Base from "../layouts/Base.astro";
+import { createSupabase } from "../lib/supabase";
+
+const supabase = createSupabase(Astro);
+if (!supabase) return Astro.redirect("/login");
+
+const { data } = await supabase.auth.getUser();
+if (!data.user) return Astro.redirect("/login");
+
+const user = data.user;
+const since = user.created_at ? new Date(user.created_at).toLocaleDateString("es-ES") : "";
+---
+<Base title="Tu cuenta">
+  <section class="narrow">
+    <h1>Hola</h1>
+    <p class="lede">Has entrado como <strong>{user.email}</strong>.</p>
+    <div class="card">
+      <h2>Tu zona privada</h2>
+      <p>Aquí irán tus contenidos, citas y documentos. Por ahora solo confirma que el acceso funciona.</p>
+      {since && <p style="color: var(--muted);">Cuenta creada el {since}.</p>}
+    </div>
+    <form method="post" action="/api/auth/logout" style="margin-top: 1.5rem;">
+      <button class="button secondary" type="submit">Cerrar sesión</button>
+    </form>
+  </section>
+</Base>

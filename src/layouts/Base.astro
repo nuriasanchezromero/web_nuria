@@ -1,0 +1,134 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Nuria Sánchez Romero" } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: "/", label: "Inicio" },
+  { href: "/sobre", label: "Sobre Nuria" },
+  { href: "/contacto", label: "Contacto" },
+];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} · Nuria Sánchez Romero</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">Nuria Sánchez Romero</a>
+      <nav aria-label="Principal">
+        {nav.map((item) => (
+          <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+        ))}
+        <a class="cta" href="/cuenta">Acceder</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} Nuria Sánchez Romero</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #faf7f2;
+    --ink: #1f1a17;
+    --muted: #6b625b;
+    --accent: #8a5a3c;
+    --accent-ink: #ffffff;
+    --line: #e6ddd3;
+    --max: 68rem;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  h1, h2, h3 {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5em;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
+  h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); }
+  main { flex: 1; width: min(100% - 2.5rem, var(--max)); margin: 0 auto; padding: 3rem 0; }
+  .site-header {
+    width: min(100% - 2.5rem, var(--max));
+    margin: 0 auto;
+    padding: 1.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { color: var(--ink); text-decoration: none; font-family: ui-serif, Georgia, serif; font-size: 1.2rem; }
+  .site-header nav { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+  .site-header nav a { color: var(--muted); text-decoration: none; }
+  .site-header nav a[aria-current="page"] { color: var(--ink); }
+  .site-header nav a.cta {
+    color: var(--accent-ink);
+    background: var(--accent);
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+  }
+  .site-footer {
+    width: min(100% - 2.5rem, var(--max));
+    margin: 0 auto;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .lede { font-size: 1.2rem; color: var(--muted); max-width: 40rem; }
+  .button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-ink);
+    padding: 0.7rem 1.3rem;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  .button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .card { border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; background: #fff; }
+  .grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .narrow { max-width: 34rem; }
+  form.stack { display: grid; gap: 0.75rem; }
+  label { font-weight: 500; }
+  input[type="email"], input[type="text"] {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 0.6rem;
+    font: inherit;
+    background: #fff;
+  }
+  .notice { padding: 0.9rem 1rem; border-radius: 0.75rem; background: #fff5e8; border: 1px solid #f0d9bd; }
+  .notice.error { background: #fdecec; border-color: #f2c1c1; }
+</style>
