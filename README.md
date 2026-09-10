@@ -19,14 +19,20 @@ npm run dev                      # http://localhost:4321
 npm run preview                  # build + runtime real de Cloudflare en local
 ```
 
-## Despliegue (Cloudflare Workers desde GitHub)
+## Despliegue (automático desde GitHub)
 
-1. Cloudflare Dashboard → Workers & Pages → Create → Import a repository → elegir `nuriasanchezromero/web_nuria`.
-2. Build command: `npm run build`. Deploy command: `npx wrangler deploy --config dist/server/wrangler.json`.
-3. En el Worker → Settings → Variables and Secrets, añadir como **secretos**:
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-4. Cada push a la rama de producción despliega solo. El dominio `nuriasanchezromero.com` se vincula automáticamente gracias a `routes` en `wrangler.jsonc`.
+Cada push a `main` ejecuta `.github/workflows/deploy.yml`, que compila y despliega en Cloudflare Workers
+y configura los secretos de Supabase en el Worker. El dominio `nuriasanchezromero.com` se vincula solo
+gracias a `routes` en `wrangler.jsonc`.
+
+Secretos necesarios en GitHub (Settings → Secrets and variables → Actions):
+
+| Secreto | De dónde sale |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | dash.cloudflare.com → perfil → API Tokens → Create Token. Permisos: Account · Workers Scripts · Edit; Account · Account Settings · Read; Zone · Workers Routes · Edit; Zone · DNS · Edit. Zona: nuriasanchezromero.com |
+| `CLOUDFLARE_ACCOUNT_ID` | dash.cloudflare.com → Workers & Pages → panel derecho, "Account ID" |
+| `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
+| `SUPABASE_ANON_KEY` | Supabase → Project Settings → API → anon public key |
 
 ## Supabase
 
