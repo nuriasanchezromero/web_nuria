@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "web-nuria",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  // Dominio propio. Cloudflare lo vincula automáticamente al desplegar
+  // porque la zona nuriasanchezromero.com ya está en esta cuenta.
+  "routes": [
+    { "pattern": "nuriasanchezromero.com", "custom_domain": true },
+    { "pattern": "www.nuriasanchezromero.com", "custom_domain": true }
+  ]
+}

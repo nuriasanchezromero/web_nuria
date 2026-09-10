@@ -1,0 +1,113 @@
+:root {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --ink: #1f2a2e;
+  --muted: #5b6b70;
+  --accent: #2f3e46;
+  --accent-soft: #dfe7e3;
+  --line: #e4ded3;
+  --radius: 12px;
+  --max: 900px;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: light; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding-inline: 20px;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+h1 { font-size: clamp(2rem, 5vw, 3rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+
+p { margin: 0 0 1em; }
+a { color: var(--accent); }
+
+.wrap { max-width: var(--max); margin-inline: auto; }
+
+header.site {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--line);
+}
+header.site .brand {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+header.site nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+header.site nav a { text-decoration: none; color: var(--muted); }
+header.site nav a[aria-current="page"], header.site nav a:hover { color: var(--ink); }
+
+main { padding-block: 48px 64px; }
+
+footer.site {
+  border-top: 1px solid var(--line);
+  padding-block: 24px 40px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.hero { padding-block: 24px 40px; }
+.hero p.lead { font-size: 1.25rem; color: var(--muted); max-width: 40ch; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 480px;
+}
+
+.button, button {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button.secondary, button.secondary {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+input[type="email"], input[type="text"], textarea {
+  width: 100%;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+.notice {
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  background: var(--accent-soft);
+}
+.notice.error { background: #f6dede; }
+
+.grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }

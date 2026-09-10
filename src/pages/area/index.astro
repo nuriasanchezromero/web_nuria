@@ -1,0 +1,19 @@
+---
+import Base from "../../layouts/Base.astro";
+// El middleware garantiza que aquí siempre hay usuario.
+const user = Astro.locals.user!;
+---
+
+<Base title="Mi área">
+  <h1>Mi área</h1>
+  <div class="notice">
+    Has entrado como <strong>{user.email}</strong>.
+  </div>
+  <p>
+    Esta es tu zona privada. Todavía está vacía: aquí irán las funciones que
+    decidamos en las siguientes fases.
+  </p>
+  <form method="post" action="/auth/logout">
+    <button type="submit" class="secondary">Cerrar sesión</button>
+  </form>
+</Base>

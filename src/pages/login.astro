@@ -1,0 +1,56 @@
+---
+import Base from "../layouts/Base.astro";
+import { createSupabase } from "../lib/supabase";
+
+if (Astro.locals.user) return Astro.redirect("/area");
+
+const next = Astro.url.searchParams.get("next") ?? "/area";
+let sent = false;
+let error: string | null = null;
+let email = "";
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  email = String(form.get("email") ?? "").trim().toLowerCase();
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    error = "Escribe un correo válido.";
+  } else {
+    const supabase = createSupabase(Astro.request, Astro.cookies);
+    const callback = new URL("/auth/callback", Astro.url.origin);
+    callback.searchParams.set("next", next);
+    const { error: err } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: callback.toString() },
+    });
+    if (err) {
+      console.error("signInWithOtp:", err.message);
+      error = "No se ha podido enviar el enlace. Inténtalo de nuevo en un momento.";
+    } else {
+      sent = true;
+    }
+  }
+}
+---
+
+<Base title="Acceder">
+  <h1>Acceder</h1>
+  <div class="card">
+    {sent ? (
+      <div class="notice">
+        <p><strong>Revisa tu correo.</strong></p>
+        <p>Te hemos enviado un enlace a <strong>{email}</strong>. Ábrelo para entrar. Si no lo ves, mira en spam.</p>
+      </div>
+    ) : (
+      <>
+        <p>Escribe tu correo y te enviaremos un enlace para entrar. Sin contraseñas.</p>
+        {error && <div class="notice error">{error}</div>}
+        <form method="post">
+          <label for="email">Correo electrónico</label>
+          <input id="email" name="email" type="email" required autocomplete="email" value={email} />
+          <button type="submit">Enviarme el enlace</button>
+        </form>
+      </>
+    )}
+  </div>
+</Base>

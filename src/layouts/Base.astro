@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Web de Nuria Sánchez Romero." } = Astro.props;
+const path = Astro.url.pathname;
+const user = Astro.locals.user;
+
+const links = [
+  { href: "/", label: "Inicio" },
+  { href: "/sobre-mi", label: "Sobre mí" },
+  { href: "/contacto", label: "Contacto" },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Nuria Sánchez Romero</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site">
+        <a class="brand" href="/">Nuria Sánchez Romero</a>
+        <nav>
+          {links.map((l) => (
+            <a href={l.href} aria-current={path === l.href ? "page" : undefined}>{l.label}</a>
+          ))}
+          {user
+            ? <a href="/area" aria-current={path.startsWith("/area") ? "page" : undefined}>Mi área</a>
+            : <a href="/login" aria-current={path === "/login" ? "page" : undefined}>Acceder</a>}
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="site">
+        © {new Date().getFullYear()} Nuria Sánchez Romero
+      </footer>
+    </div>
+  </body>
+</html>

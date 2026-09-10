@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+const user = Astro.locals.user;
+---
+
+<Base title="Inicio">
+  <section class="hero">
+    <h1>Hola, soy Nuria.</h1>
+    <p class="lead">
+      Texto provisional. Aquí irá una frase clara sobre a qué me dedico y qué
+      puedo hacer por ti.
+    </p>
+    <p>
+      {user
+        ? <a class="button" href="/area">Ir a mi área</a>
+        : <a class="button" href="/contacto">Hablemos</a>}
+    </p>
+  </section>
+
+  <section class="grid">
+    <div>
+      <h2>Qué hago</h2>
+      <p>Texto provisional. Servicios o actividad principal, en dos o tres frases.</p>
+    </div>
+    <div>
+      <h2>Para quién</h2>
+      <p>Texto provisional. A quién ayudo y en qué situación.</p>
+    </div>
+    <div>
+      <h2>Cómo empezar</h2>
+      <p>Texto provisional. El primer paso que puede dar quien llega a esta página.</p>
+    </div>
+  </section>
+</Base>

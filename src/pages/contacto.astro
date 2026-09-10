@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+const email = "hola@nuriasanchezromero.com"; // provisional: cambiar por el email real
+---
+
+<Base title="Contacto">
+  <h1>Contacto</h1>
+  <p>La forma más directa de hablar conmigo es por correo:</p>
+  <p><a class="button" href={`mailto:${email}`}>{email}</a></p>
+</Base>
