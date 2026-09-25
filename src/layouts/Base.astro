@@ -16,17 +16,27 @@ const {
 } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
+// La página 404 se sirve en cualquier URL que no existe: sin canonical ni og:url
+// (apuntarían a /404/, que no existe) y fuera del índice.
+const isNotFound = /^\/404\/?$/.test(path);
 // Imagen para redes: jpg de hasta 1200 px (el servicio no amplía originales más pequeños).
 const og = await getImage({ src: image, width: Math.min(1200, image.width), format: "jpg" });
 const ogImage = new URL(og.src, Astro.site);
+// Las páginas estáticas se publican con barra final (/historias/, /sobre/...), la
+// misma forma que usan canonical, og:url y el sitemap: los enlaces internos a ellas
+// la llevan también. /cuenta y /login son rutas bajo demanda y van sin barra.
 const nav = [
   { href: "/", label: "Inicio" },
-  { href: "/historias", label: "Historias" },
-  { href: "/sobre", label: "Sobre Núria" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "/historias/", label: "Historias" },
+  { href: "/sobre/", label: "Sobre Núria" },
+  { href: "/contacto/", label: "Contacto" },
 ];
 const isHome = path === "/";
-const isCurrent = (href: string) => (href === "/" ? isHome : path === href || path.startsWith(`${href}/`));
+const here = path.endsWith("/") ? path : `${path}/`;
+// "page" solo en el enlace a la página actual; "true" en el de la sección que la
+// contiene (Historias, dentro de /historias/<slug>/).
+const ariaCurrent = (href: string) =>
+  here === href ? "page" : href !== "/" && here.startsWith(href) ? "true" : undefined;
 ---
 <!doctype html>
 <html lang="es">
@@ -38,8 +48,14 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     <meta name="generator" content={Astro.generator} />
     <meta property="og:title" content={`${title} · Núria Sánchez`} />
     <meta property="og:description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:url" content={canonical} />
+    {isNotFound ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <>
+        <link rel="canonical" href={canonical} />
+        <meta property="og:url" content={canonical} />
+      </>
+    )}
     <meta property="og:type" content={type} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content={og.attributes.width} />
@@ -60,10 +76,10 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
       <a class="brand" href="/">Núria Sánchez</a>
       <nav aria-label="Principal">
         {nav.map((item) => (
-          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
+          <a href={item.href} aria-current={ariaCurrent(item.href)}>{item.label}</a>
         ))}
-        <a class="pill" href="/cuenta">Acceder</a>
       </nav>
+      <a class="pill" href="/cuenta">Acceder</a>
     </header>
     <main>
       <slot />
@@ -71,9 +87,9 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     <footer class="site-footer">
       <span>© {new Date().getFullYear()} Núria Sánchez</span>
       <nav aria-label="Pie">
-        <a href="/historias">Historias</a>
-        <a href="/sobre">Sobre Núria</a>
-        <a href="/contacto">Contacto</a>
+        <a href="/historias/">Historias</a>
+        <a href="/sobre/">Sobre Núria</a>
+        <a href="/contacto/">Contacto</a>
         <a href="/cuenta">Acceder</a>
       </nav>
     </footer>
@@ -91,6 +107,8 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     --mint: #bfe8d6;
     --butter: #f8e3a1;
     --lavender: #d9d2f4;
+    /* Anillo de foco: tinta, 15:1 sobre crema (el rosa no llega a 2:1). */
+    --focus: var(--ink);
     --max: 82rem;
     --gutter: clamp(1.25rem, 4.5vw, 4rem);
   }
@@ -123,33 +141,38 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
   main { flex: 1; }
   .wrap { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
 
+  /* Escritorio: una fila (marca | enlaces · Acceder). Hasta 720 px: dos filas,
+     marca y Acceder arriba y los enlaces debajo (ver la media query del final). */
   .site-header {
     width: min(100% - 2 * var(--gutter), var(--max));
     margin-inline: auto;
     padding: 1.4rem 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    column-gap: clamp(0.9rem, 2.4vw, 2rem);
+    row-gap: 1rem;
     flex-wrap: wrap;
     position: relative;
     z-index: 3;
   }
+  /* En escritorio la cabecera (una fila) flota entera sobre la foto de portada. */
   .site-header.over-hero { margin-bottom: -5.5rem; }
   .brand { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
-  .site-header nav { display: flex; gap: clamp(0.9rem, 2.4vw, 2rem); align-items: center; flex-wrap: wrap; }
+  .site-header nav { margin-left: auto; display: flex; gap: clamp(0.9rem, 2.4vw, 2rem); align-items: center; flex-wrap: wrap; }
   .site-header nav a { font-weight: 500; font-size: 0.95rem; text-decoration: none; color: var(--ink); }
-  .site-header nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-thickness: 2px; text-decoration-color: var(--pink); }
-  .pill, .site-header nav a.pill {
+  .site-header nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-thickness: 2px; text-decoration-color: var(--pink); }
+  .pill {
     font-weight: 700;
+    font-size: 0.95rem;
     background: var(--ink);
     color: var(--cream);
     padding: 0.7rem 1.35rem;
     border-radius: 999px;
     text-decoration: none;
+    white-space: nowrap;
     transition: transform 0.15s ease, background 0.15s ease;
   }
-  .pill:hover, .site-header nav a.pill:hover { color: var(--cream); background: #3a322d; transform: translateY(-1px); }
+  .pill:hover { color: var(--cream); background: #3a322d; transform: translateY(-1px); }
 
   .sticker {
     display: inline-block;
@@ -181,6 +204,10 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     cursor: pointer;
     box-shadow: 0 6px 0 rgba(36, 31, 28, 0.12);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+    /* Nunca más ancho que su contenedor: un texto largo sin espacios (el email de
+       /contacto/ a 320 px) parte línea en vez de desbordar la página. */
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .button:hover { color: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 0 rgba(36, 31, 28, 0.14); }
   .button:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(36, 31, 28, 0.14); }
@@ -234,7 +261,7 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     font: inherit;
     background: #fff;
   }
-  input:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; border-color: var(--ink); }
+  input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-color: var(--ink); }
   .notice { padding: 0.9rem 1rem; border-radius: 1rem; background: var(--butter); color: #5a4300; }
   .notice.error { background: #fdd9e6; color: #7a2648; }
 
@@ -251,10 +278,19 @@ const isCurrent = (href: string) => (href === "/" ? isHome : path === href || pa
     color: var(--muted);
     font-size: 0.9rem;
   }
-  .site-footer nav { display: flex; gap: 1.4rem; }
-  .site-footer a { color: var(--muted); text-decoration: none; }
+  .site-footer nav { display: flex; flex-wrap: wrap; column-gap: 1.4rem; row-gap: 0.5rem; }
+  .site-footer a { color: var(--muted); text-decoration: none; white-space: nowrap; }
   .site-footer a:hover { color: var(--ink); }
 
+  @media (max-width: 720px) {
+    /* Fila 1: marca y Acceder. Fila 2: los enlaces, a todo el ancho. */
+    .site-header .pill { margin-left: auto; }
+    .site-header nav { order: 1; flex-basis: 100%; margin-left: 0; }
+    /* La foto de portada empieza entre las dos filas: marca y Acceder quedan sobre
+       crema y los enlaces sobre el velo claro de la foto. El solape es lo que queda
+       por debajo de esa línea: medio row-gap + la línea de enlaces + el padding. */
+    .site-header.over-hero { margin-bottom: calc(-1 * (0.5rem + 0.95rem * 1.55 + 1.4rem)); }
+  }
   @media (max-width: 560px) {
     .site-header nav a[href="/"] { display: none; }
   }

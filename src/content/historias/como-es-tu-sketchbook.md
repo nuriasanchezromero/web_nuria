@@ -1,19 +1,17 @@
 ---
 title: "Cuéntame cómo es tu sketchbook"
-description: "Si es feo, te abrazo. Si es bonito, te envidio. Sobre cuadernos de dibujo, la vergüenza y por qué el feo es el que sirve."
+description: "Odio los sketchbooks preciosos, los que se hacen para enseñarlos en redes. Un sketchbook es donde juegas, te equivocas y pruebas cosas."
 tag: "Taller"
 date: 2026-08-06
 cover: "../../assets/tt/7670952693392870678.jpg"
-coverAlt: "Portada del vídeo de taller «Cuéntame cómo es tu sketchbook», sobre cuadernos de dibujo."
+coverAlt: "Núria, con un micrófono en la mano, mira de reojo delante de una pared de ladrillo con ilustraciones. Texto de la portada: «Odio los sketchbooks»."
 tiktok: "https://www.tiktok.com/@sinuosa.sanchez/video/7670952693392870678"
 instagram: "https://www.instagram.com/p/DbtPf1QNz8t/"
 caption: "Cuéntame cómo es tu sketchbook! Si es feo, te abrazo. Si es bonito, te envidio🫰 #sketchbook #ilustracion #creatividad"
 ---
 
-Cuéntame cómo es tu sketchbook. Si es feo, te abrazo. Si es bonito, te envidio. Y las dos cosas son verdad.
+Odio los sketchbooks, y más en concreto un tipo: los preciosos, los que están hechos para enseñarse en redes. Un sketchbook no es eso. Es donde juegas, donde te equivocas, donde pruebas cosas. Si al abrirlo sientes la presión de que quede precioso para subirlo, lo siento, pero te han robado tu espacio de juego.
 
-Hay dos escuelas. La del cuaderno bonito: páginas terminadas, paleta coherente, cada dibujo listo para una foto. Se enseña con orgullo y cuesta abrirlo, porque cada página nueva tiene que estar a la altura. Y la del cuaderno feo: manchas, pruebas de color, una mano que no salió, la lista de la compra en la esquina. Nadie lo ve. Ahí es donde pasan las cosas.
+Yo empecé mi último sketchbook para soltarme y relajarme, y ahora cada vez que lo abro me da miedo cagarla. Así que si tu sketchbook es precioso, felicidades: tienes un porfolio increíble. Pero si te da pánico, como a mí, rebélate conmigo: ábrelo y empieza a guarrearlo.
 
-Defiendo el feo, aunque envidie el bonito. El sketchbook no es una obra, es un sitio donde equivocarse sale barato. Si te da vergüenza enseñarlo, probablemente lo estás usando bien. Si te da vergüenza dibujar en él, tienes un problema de cuaderno, no de talento: cómprate uno más barato y estropéalo el primer día.
-
-Así que cuéntamelo. Feo, bonito, con las esquinas dobladas o forrado con cinta. Yo sigo pensando que la creatividad se parece más a un cuaderno lleno de tachones que a una página perfecta.
+Y cuéntame cómo es el tuyo. Si es feo, te abrazo. Si es bonito, te envidio.

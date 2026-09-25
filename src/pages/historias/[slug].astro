@@ -61,20 +61,20 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
 
         <nav class="story-nav" aria-label="Otras historias">
           {prev ? (
-            <a class="nav-card" href={`/historias/${prev.id}`} rel="prev">
+            <a class="nav-card" href={`/historias/${prev.id}/`} rel="prev">
               <span class="nav-label">Anterior</span>
               <span class="nav-title">{prev.data.title}</span>
             </a>
           ) : <span class="nav-card empty" aria-hidden="true"></span>}
           {next ? (
-            <a class="nav-card next" href={`/historias/${next.id}`} rel="next">
+            <a class="nav-card next" href={`/historias/${next.id}/`} rel="next">
               <span class="nav-label">Siguiente</span>
               <span class="nav-title">{next.data.title}</span>
             </a>
           ) : <span class="nav-card empty" aria-hidden="true"></span>}
         </nav>
 
-        <p class="back"><a class="arrow-link" href="/historias">← Todas las historias</a></p>
+        <p class="back"><a class="arrow-link" href="/historias/">← Todas las historias</a></p>
       </div>
     </div>
   </article>
@@ -85,8 +85,10 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
 
   .story-cover { max-width: 14rem; transform: rotate(-1.2deg); }
   .story-cover :global(.cover-pic) { display: block; }
+  /* Portada entera, sin recorte: muchas llevan el titular impreso y hay portadas 9:16 y 3:4.
+     El width/height del <img> reserva la proporción de cada una. */
   .story-cover :global(.cover-img) {
-    display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover;
+    display: block; width: 100%; height: auto;
     border-radius: 1.4rem; background: var(--lavender); box-shadow: 0 10px 0 rgba(36, 31, 28, 0.08);
   }
 
@@ -118,7 +120,7 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
   .caption p { margin: 0; overflow-wrap: anywhere; }
 
   .story-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 2rem; }
-  .story-actions .button:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+  .story-actions .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
   .story-nav {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem;
@@ -132,14 +134,14 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
   }
   .nav-card.next { text-align: right; align-items: flex-end; }
   .nav-card:hover { border-color: var(--ink); transform: translateY(-2px); color: var(--ink); }
-  .nav-card:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+  .nav-card:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
   .nav-card.empty { border-color: transparent; background: transparent; }
   .nav-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
   .nav-title { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
 
   .back { margin-top: 2rem; }
   .arrow-link { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; }
-  .arrow-link:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; border-radius: 4px; }
+  .arrow-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
 
   @media (min-width: 721px) {
     .story-grid { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); }
