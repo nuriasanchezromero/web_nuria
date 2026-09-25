@@ -74,7 +74,7 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
       </div>
       <div class="quote-body">
         <p class="quote-text">«El año pasado me enamoré de un cuadro que no existe.»</p>
-        <a class="arrow-link" href="/sobre">
+        <a class="arrow-link" href="/historias/cuadros-perdidos-de-klimt">
           Ver la historia
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
         </a>
@@ -88,6 +88,10 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
         <span class="sticker chip pink">TikTok · Instagram</span>
         <h2 id="stories-title">La cara B, en vídeo</h2>
         <p>Historias del arte y cosas de taller, en vertical y sin filtro. Las últimas, aquí; el resto, en sus redes.</p>
+        <a class="arrow-link" href="/historias">
+          Todas las historias
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </a>
       </div>
       <div class="follow">
         <a class="button dark" href={tiktok} target="_blank" rel="noopener">
@@ -107,7 +111,7 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
           {v.ig ? (
             <div class="reel-card has-choice">
               <button class="reel-open" type="button" aria-haspopup="true" aria-expanded="false" aria-label={`Ver «${v.title}»`}>
-                <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
+                <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} fallbackFormat="jpg" alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
                 <span class="reel-play" aria-hidden="true">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
                 </span>
@@ -127,7 +131,7 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
             </div>
           ) : (
             <a class="reel-card" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">
-              <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
+              <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} fallbackFormat="jpg" alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
               <span class="reel-play" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
               </span>
@@ -334,6 +338,7 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
   .stories-head { display: flex; flex-direction: column; gap: 1.25rem; align-items: flex-start; margin-bottom: 1.75rem; }
   .stories-head h2 { margin: 0.9rem 0 0.4rem; }
   .stories-head p { margin: 0; color: var(--body); max-width: 34rem; }
+  .stories-head .arrow-link { margin-top: 0.9rem; }
   .chip.pink { background: var(--pink); color: #5a1f3b; }
   .follow { display: flex; gap: 0.7rem; flex-wrap: wrap; }
   .follow .button { display: inline-flex; align-items: center; gap: 0.55rem; }

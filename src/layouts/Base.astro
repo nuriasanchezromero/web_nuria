@@ -1,18 +1,32 @@
 ---
-import { Font } from "astro:assets";
+import { Font, getImage } from "astro:assets";
+import heroWide from "../assets/hero-wide.jpg";
 
 interface Props {
   title: string;
   description?: string;
+  image?: ImageMetadata;
+  type?: "website" | "article";
 }
-const { title, description = "Núria Sánchez, ilustradora. La cara B de la historia del arte, contada en rosa pastel." } = Astro.props;
+const {
+  title,
+  description = "Núria Sánchez, ilustradora. La cara B de la historia del arte, contada en rosa pastel.",
+  image = heroWide,
+  type = "website",
+} = Astro.props;
 const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site);
+// Imagen para redes: jpg de hasta 1200 px (el servicio no amplía originales más pequeños).
+const og = await getImage({ src: image, width: Math.min(1200, image.width), format: "jpg" });
+const ogImage = new URL(og.src, Astro.site);
 const nav = [
   { href: "/", label: "Inicio" },
+  { href: "/historias", label: "Historias" },
   { href: "/sobre", label: "Sobre Núria" },
   { href: "/contacto", label: "Contacto" },
 ];
 const isHome = path === "/";
+const isCurrent = (href: string) => (href === "/" ? isHome : path === href || path.startsWith(`${href}/`));
 ---
 <!doctype html>
 <html lang="es">
@@ -24,6 +38,18 @@ const isHome = path === "/";
     <meta name="generator" content={Astro.generator} />
     <meta property="og:title" content={`${title} · Núria Sánchez`} />
     <meta property="og:description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={og.attributes.width} />
+    <meta property="og:image:height" content={og.attributes.height} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} · Núria Sánchez`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#fbf6ee" />
     <title>{title} · Núria Sánchez</title>
     <Font cssVariable="--font-display" preload />
     <Font cssVariable="--font-body" preload />
@@ -34,7 +60,7 @@ const isHome = path === "/";
       <a class="brand" href="/">Núria Sánchez</a>
       <nav aria-label="Principal">
         {nav.map((item) => (
-          <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
         ))}
         <a class="pill" href="/cuenta">Acceder</a>
       </nav>
@@ -45,6 +71,7 @@ const isHome = path === "/";
     <footer class="site-footer">
       <span>© {new Date().getFullYear()} Núria Sánchez</span>
       <nav aria-label="Pie">
+        <a href="/historias">Historias</a>
         <a href="/sobre">Sobre Núria</a>
         <a href="/contacto">Contacto</a>
         <a href="/cuenta">Acceder</a>

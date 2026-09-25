@@ -1,0 +1,148 @@
+---
+import { getCollection, render } from "astro:content";
+import { Picture } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const all = (await getCollection("historias")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  // prev = la más reciente, next = la anterior en el tiempo (mismo orden que el índice)
+  return all.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: all[i - 1] ?? null, next: all[i + 1] ?? null },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const iso = d.date.toISOString().slice(0, 10);
+const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+---
+<Base title={d.title} description={d.description} image={d.cover} type="article">
+  <article class="wrap page story">
+    <div class="story-grid">
+      <div class="story-cover">
+        <Picture
+          src={d.cover}
+          widths={[320, 480, 640, 900]}
+          sizes="(min-width: 721px) 22rem, 14rem"
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          alt={d.coverAlt}
+          loading="eager"
+          class="cover-img"
+          pictureAttributes={{ class: "cover-pic" }}
+        />
+      </div>
+
+      <div class="story-text">
+        <span class="sticker chip">{d.tag}</span>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.description}</p>
+        <p class="story-date">Publicado el <time datetime={iso}>{fecha}</time></p>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <blockquote class="caption">
+          <span class="caption-label">El pie del vídeo</span>
+          <p>{d.caption}</p>
+        </blockquote>
+
+        <div class="story-actions">
+          <a class="button dark" href={d.tiktok} target="_blank" rel="noopener">Ver en TikTok</a>
+          {d.instagram && (
+            <a class="button" href={d.instagram} target="_blank" rel="noopener">Ver en Instagram</a>
+          )}
+        </div>
+
+        <nav class="story-nav" aria-label="Otras historias">
+          {prev ? (
+            <a class="nav-card" href={`/historias/${prev.id}`} rel="prev">
+              <span class="nav-label">Anterior</span>
+              <span class="nav-title">{prev.data.title}</span>
+            </a>
+          ) : <span class="nav-card empty" aria-hidden="true"></span>}
+          {next ? (
+            <a class="nav-card next" href={`/historias/${next.id}`} rel="next">
+              <span class="nav-label">Siguiente</span>
+              <span class="nav-title">{next.data.title}</span>
+            </a>
+          ) : <span class="nav-card empty" aria-hidden="true"></span>}
+        </nav>
+
+        <p class="back"><a class="arrow-link" href="/historias">← Todas las historias</a></p>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .story-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: start; }
+
+  .story-cover { max-width: 14rem; transform: rotate(-1.2deg); }
+  .story-cover :global(.cover-pic) { display: block; }
+  .story-cover :global(.cover-img) {
+    display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover;
+    border-radius: 1.4rem; background: var(--lavender); box-shadow: 0 10px 0 rgba(36, 31, 28, 0.08);
+  }
+
+  .story-text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+  .chip {
+    font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em;
+    background: var(--butter); color: #5a4300;
+    padding: 0.6rem 0.85rem; border-radius: 6px; transform: rotate(-4deg);
+  }
+  .story-text h1 { margin-top: 1.1rem; font-size: clamp(2.2rem, 5vw, 3.6rem); }
+  .story-text .lede { margin-bottom: 0.4rem; }
+  .story-date { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.8rem; }
+
+  .prose { max-width: 38rem; }
+  .prose :global(p) { color: var(--body); font-size: 1.05rem; line-height: 1.65; margin: 0 0 1.1em; }
+  .prose :global(p:last-child) { margin-bottom: 0; }
+  .prose :global(em) { font-style: italic; }
+  .prose :global(a) { text-decoration-color: var(--pink); text-underline-offset: 0.2em; }
+
+  .caption {
+    margin: 2rem 0 0; padding: 1rem 1.2rem; max-width: 38rem;
+    border-left: 4px solid var(--pink); background: #fff; border-radius: 0 1rem 1rem 0;
+    color: var(--muted); font-size: 0.9rem;
+  }
+  .caption-label {
+    display: block; font-family: var(--font-sticker); font-weight: 900; font-size: 0.68rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #5a1f3b; margin-bottom: 0.4rem;
+  }
+  .caption p { margin: 0; overflow-wrap: anywhere; }
+
+  .story-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 2rem; }
+  .story-actions .button:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+
+  .story-nav {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem;
+    width: 100%; max-width: 38rem; margin-top: 3rem;
+  }
+  .nav-card {
+    display: flex; flex-direction: column; gap: 0.25rem;
+    padding: 1rem 1.1rem; border-radius: 1rem; border: 2px solid var(--line);
+    text-decoration: none; color: var(--ink); background: #fff;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .nav-card.next { text-align: right; align-items: flex-end; }
+  .nav-card:hover { border-color: var(--ink); transform: translateY(-2px); color: var(--ink); }
+  .nav-card:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+  .nav-card.empty { border-color: transparent; background: transparent; }
+  .nav-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .nav-title { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+
+  .back { margin-top: 2rem; }
+  .arrow-link { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; }
+  .arrow-link:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; border-radius: 4px; }
+
+  @media (min-width: 721px) {
+    .story-grid { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); }
+    .story-cover { max-width: 22rem; position: sticky; top: 1.5rem; }
+  }
+</style>
