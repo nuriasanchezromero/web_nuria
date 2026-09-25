@@ -1,0 +1,36 @@
+name: CI
+
+# Comprueba tipos y compila en cada pull request hacia main y en cada push a
+# cualquier rama que no sea main (main ya lo hace deploy.yml antes de desplegar).
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Comprobar tipos y plantillas (astro check)
+        run: npm run check
+
+      - name: Compilar
+        run: npm run build

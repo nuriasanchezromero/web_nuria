@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Solo lectura del repositorio: el despliegue usa el token de Cloudflare,
+# no el GITHUB_TOKEN.
+permissions:
+  contents: read
+
 concurrency:
   group: deploy
   cancel-in-progress: false
@@ -13,16 +18,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - name: Instalar dependencias
+        run: npm ci
 
-      - run: npm run build
+      - name: Comprobar tipos y plantillas (astro check)
+        run: npm run check
+
+      - name: Auditoría de dependencias (informativa, no bloquea)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Compilar
+        run: npm run build
 
       - name: Desplegar en Cloudflare Workers
         run: npx wrangler deploy --config dist/server/wrangler.json

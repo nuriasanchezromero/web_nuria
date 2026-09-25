@@ -1,0 +1,31 @@
+# Actualizaciones automáticas de dependencias. Los PRs pasan por ci.yml.
+version: 2
+updates:
+  # Paquetes npm: una vez por semana, los lunes por la mañana (hora de Madrid).
+  # Las actualizaciones minor y patch llegan agrupadas en un solo PR; las
+  # major, que pueden romper cosas, llegan en PRs individuales.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: Europe/Madrid
+    groups:
+      menores-y-parches:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps
+
+  # Acciones de GitHub usadas en .github/workflows.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: Europe/Madrid
+    commit-message:
+      prefix: ci
