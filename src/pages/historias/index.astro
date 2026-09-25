@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import { Picture } from "astro:assets";
 import Base from "../../layouts/Base.astro";
+import SocialIcon from "../../components/SocialIcon.astro";
+import { TIKTOK_PROFILE, INSTAGRAM_PROFILE } from "../../lib/social";
 
 const description = "Historias del arte contadas como un chisme. Cuadros que no existen, artistas que sí.";
 const historias = (await getCollection("historias")).sort(
@@ -14,6 +16,11 @@ const historias = (await getCollection("historias")).sort(
       <span class="sticker tag">Historias</span>
       <h1 id="historias-title">La cara B, por escrito</h1>
       <p class="lede">{description}</p>
+      <p class="follow-note">Todas nacen como vídeo. Míralas donde prefieras:</p>
+      <div class="follow">
+        <a class="button dark" href={TIKTOK_PROFILE} target="_blank" rel="noopener"><SocialIcon name="tiktok" /> Ver en TikTok</a>
+        <a class="button" href={INSTAGRAM_PROFILE} target="_blank" rel="noopener"><SocialIcon name="instagram" /> Ver en Instagram</a>
+      </div>
     </div>
 
     <ul class="grid">
@@ -48,6 +55,10 @@ const historias = (await getCollection("historias")).sort(
 </Base>
 
 <style>
+  .follow-note { color: var(--body); margin: 0.5rem 0 0.8rem; }
+  .follow { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .follow .button { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .follow .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
   .head { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
   .head h1 { margin-top: 1rem; }
   .head .lede { margin: 0; }

@@ -1,11 +1,197 @@
 ---
+import { Picture } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import SocialIcon from "../components/SocialIcon.astro";
+import portrait from "../assets/hero-portrait.jpg";
+import { HANDLE, TIKTOK_PROFILE, INSTAGRAM_PROFILE } from "../lib/social";
+
+const description =
+  "Núria Sánchez, ilustradora y diseñadora gráfica en Barcelona. Opina en rosa pastel y cuenta la cara B de la historia del arte.";
+
+// Trayectoria (fuente: su perfil de LinkedIn). Del más reciente al más antiguo.
+const trabajo = [
+  { when: "2018 – hoy", what: "Ilustradora y diseñadora gráfica freelance", where: "Campañas, editorial, redes, marca y packaging" },
+  { when: "2020 – 2025", what: "Directora creativa y Operations & Project Manager", where: "NutriBrain · Barcelona" },
+  { when: "2018 – 2022", what: "Diseñadora gráfica y Logistics Manager", where: "Smplest · Barcelona" },
+  { when: "2014 – 2016", what: "Store Manager", where: "Calzedonia Group" },
+  { when: "2012 – 2013", what: "Diseño de interiores e infografía 2D/3D", where: "APR Arquitectura (Madrid) y Lombardo Estilistes (Barcelona)" },
+];
+const formacion = [
+  { when: "2017 – 2019", what: "Máster en Animación 3D y diseño de personajes", where: "FX Barcelona Film School" },
+  { when: "2014", what: "Visualización 3D y render con 3ds Max", where: "Píxel 51" },
+  { when: "2011 – 2012", what: "Arquitectura de interiores", where: "ESA Saint-Luc · Lieja, Bélgica" },
+  { when: "2009 – 2014", what: "Diseño de interiores", where: "Escola Deià (ESDAP) · Barcelona" },
+];
 ---
-<Base title="Sobre Núria">
-  <article class="wrap page narrow">
-    <span class="sticker tag">Sobre Núria</span>
-    <h1 style="margin-top: 1rem;">Ilustradora de intimidad inquietante.</h1>
-    <p class="lede">Opino en rosa pastel. Cuento la cara B de la historia del arte: cuadros que no existen, artistas que sí.</p>
-    <p>Aquí irá la trayectoria de Núria, su formación y lo que la diferencia. Se sustituirá en cuanto tengamos el texto real.</p>
+<Base title="Sobre Núria" description={description} image={portrait}>
+  <article class="about">
+    <section class="wrap intro">
+      <div class="intro-text">
+        <span class="sticker tag">Sobre Núria</span>
+        <h1>Hola, soy Núria.</h1>
+        <p class="lede">Ilustradora y diseñadora gráfica en Barcelona. Opino en rosa pastel y cuento la cara B de la historia del arte.</p>
+        <div class="social-row">
+          <a class="button dark" href={TIKTOK_PROFILE} target="_blank" rel="noopener"><SocialIcon name="tiktok" /> TikTok</a>
+          <a class="button" href={INSTAGRAM_PROFILE} target="_blank" rel="noopener"><SocialIcon name="instagram" /> Instagram</a>
+          <span class="handle">{HANDLE}</span>
+        </div>
+      </div>
+      <figure class="intro-photo">
+        <Picture
+          src={portrait}
+          widths={[360, 540, 720]}
+          sizes="(min-width: 721px) 24rem, 80vw"
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          alt="Núria sonriendo frente a una pared de ladrillo."
+          loading="eager"
+          class="photo-img"
+        />
+        <span class="sticker qhe" aria-hidden="true">Qhè?</span>
+      </figure>
+    </section>
+
+    <section class="wrap whoami" aria-labelledby="quien">
+      <h2 id="quien">Quién soy</h2>
+      <div class="prose">
+        <p>Dibujo cosas que parecen dulces y no lo son tanto. El rosa pastel es mi forma de entrar en temas incómodos sin que nadie se ponga a la defensiva: primero te sonríe y luego te obliga a mirar dos veces.</p>
+        <p>De la historia del arte me interesa lo que no sale en la cartela del museo. El cuadro que se quemó, la pintora a la que no creyeron, el encargo que acabó en escándalo. Eso es lo que cuento en mis vídeos, como quien te cuenta un chisme.</p>
+        <p>Vengo del diseño de interiores, así que cuando dibujo también pienso en la luz, en los pesos y en los vacíos. Y me he pasado años al otro lado de la mesa, llevando la parte visual de marcas de verdad: packaging que se imprime, lanzamientos con fecha y equipos que coordinar. Así que sí, dibujo, pero también sé lo que cuesta que un dibujo acabe impreso en una caja, a tiempo y del color que tocaba.</p>
+      </div>
+    </section>
+
+    <section class="wrap what" aria-labelledby="hago">
+      <h2 id="hago">Lo que hago</h2>
+      <div class="what-grid">
+        <div class="card lavender">
+          <span class="sticker label">Ilustración</span>
+          <h3>A medida</h3>
+          <p>Ilustraciones para campañas, editorial, redes y producto. Del primer boceto al archivo final.</p>
+        </div>
+        <div class="card mint">
+          <span class="sticker label">Marca</span>
+          <h3>Dirección creativa</h3>
+          <p>Identidad, packaging y dirección de arte. Que todo encaje: lo bonito y el calendario.</p>
+        </div>
+        <div class="card butter">
+          <span class="sticker label">Vídeo</span>
+          <h3>La cara B</h3>
+          <p>Historia del arte y cosas de taller, en vertical y sin filtro.</p>
+          <a class="arrow-link" href="/historias/">
+            Ver las historias
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap path dots" aria-labelledby="vengo">
+      <h2 id="vengo">De dónde vengo</h2>
+      <div class="path-grid">
+        <div>
+          <h3 class="path-title">Trabajo</h3>
+          <ol class="timeline">
+            {trabajo.map((t) => (
+              <li><span class="when">{t.when}</span><span class="what">{t.what}</span><span class="where">{t.where}</span></li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          <h3 class="path-title">Formación</h3>
+          <ol class="timeline">
+            {formacion.map((t) => (
+              <li><span class="when">{t.when}</span><span class="what">{t.what}</span><span class="where">{t.where}</span></li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap talk">
+      <div class="card pinkcard">
+        <span class="sticker label">¿Hablamos?</span>
+        <h2>¿Tienes un proyecto con personalidad?</h2>
+        <p>Una marca que no quiere ser sosa, un libro, una campaña o simplemente un cuadro que te apetece comentar. Escríbeme.</p>
+        <div class="social-row">
+          <a class="button dark" href="/contacto/">Escríbeme</a>
+          <a class="button secondary" href={TIKTOK_PROFILE} target="_blank" rel="noopener"><SocialIcon name="tiktok" /> TikTok</a>
+          <a class="button secondary" href={INSTAGRAM_PROFILE} target="_blank" rel="noopener"><SocialIcon name="instagram" /> Instagram</a>
+        </div>
+      </div>
+    </section>
   </article>
 </Base>
+
+<style>
+  .about { padding-bottom: clamp(3rem, 8vw, 6rem); }
+  .about section { margin-top: clamp(3rem, 7vw, 5.5rem); }
+  .about section:first-child { margin-top: clamp(2rem, 6vw, 4.5rem); }
+
+  .intro { display: grid; gap: 2.5rem; align-items: center; }
+  .intro h1 { margin-top: 1rem; }
+  .social-row { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; margin-top: 1.4rem; }
+  .social-row .button { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .handle { font-weight: 500; color: var(--muted); }
+  .intro-photo { position: relative; margin: 0; justify-self: center; width: min(80vw, 24rem); transform: rotate(2deg); }
+  .intro-photo :global(.photo-img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 1.75rem;
+    box-shadow: 0 14px 0 rgba(36, 31, 28, 0.1);
+  }
+  .qhe {
+    position: absolute;
+    right: -0.8rem;
+    bottom: 1.4rem;
+    background: var(--pink);
+    color: var(--ink);
+    font-size: 1.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    transform: rotate(-8deg);
+  }
+
+  .whoami .prose { max-width: 40rem; font-size: 1.08rem; }
+  .whoami .prose p { color: var(--body); }
+  .whoami .prose p:first-child { font-size: clamp(1.2rem, 2vw, 1.45rem); color: var(--ink); line-height: 1.4; }
+
+  .what-grid { display: grid; gap: 1.8rem; margin-top: 1.8rem; }
+  .what h3 { font-size: 1.5rem; margin: 0; }
+  .arrow-link { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; text-decoration: none; margin-top: auto; }
+
+  .path { padding: clamp(2rem, 5vw, 3.5rem) clamp(1.2rem, 4vw, 3rem); border-radius: 1.75rem; }
+  .path-grid { display: grid; gap: 2.5rem; margin-top: 1.5rem; }
+  .path-title { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.12em; font-family: var(--font-body); font-weight: 700; color: var(--muted); }
+  .timeline { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--pink); }
+  .timeline li { position: relative; display: grid; gap: 0.15rem; padding: 0 0 1.4rem 1.3rem; }
+  .timeline li::before {
+    content: "";
+    position: absolute;
+    left: -0.45rem;
+    top: 0.35rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+  }
+  .when { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .what { font-weight: 700; line-height: 1.3; }
+  .where { color: var(--body); font-size: 0.95rem; }
+
+  .pinkcard { background: var(--pink); }
+  .pinkcard h2 { margin: 0; }
+  .pinkcard p { color: var(--ink); max-width: 34rem; }
+
+  .about a:focus-visible, .about .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+  @media (min-width: 721px) {
+    .intro { grid-template-columns: 1.2fr 1fr; }
+    .what-grid { grid-template-columns: repeat(3, 1fr); }
+    .path-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>

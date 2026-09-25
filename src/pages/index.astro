@@ -11,6 +11,8 @@ const portraitWebp = await getImage({ src: heroPortrait, widths: [640, 928], for
 const fallback = await getImage({ src: heroWide, width: 1440, format: "jpg" });
 
 import { Picture } from "astro:assets";
+import SocialIcon from "../components/SocialIcon.astro";
+import { HANDLE, TIKTOK_PROFILE, INSTAGRAM_PROFILE, tiktokVideo, instagramOr } from "../lib/social";
 import t1 from "../assets/tt/7683612246425013526.jpg";
 import t2 from "../assets/tt/7446082549773864224.jpg";
 import t3 from "../assets/tt/7680618022855347478.jpg";
@@ -18,15 +20,13 @@ import t4 from "../assets/tt/7670952693392870678.jpg";
 import t5 from "../assets/tt/7192895892561743110.jpg";
 import t6 from "../assets/tt/7194865081681775877.jpg";
 
-const tiktok = "https://www.tiktok.com/@sinuosa.sanchez";
-const instagram = "https://www.instagram.com/sinuosa.sanchez/";
 const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?: string }[] = [
-  { id: "7683612246425013526", img: t1, title: "Los cuadros perdidos de Klimt, parte 1", tag: "Historia del arte", ig: "" },
-  { id: "7446082549773864224", img: t2, title: "El cuadro más sangriento del Barroco", tag: "Historia del arte", ig: "" },
+  { id: "7683612246425013526", img: t1, title: "Los cuadros perdidos de Klimt, parte 1", tag: "Historia del arte" },
+  { id: "7446082549773864224", img: t2, title: "El cuadro más sangriento del Barroco", tag: "Historia del arte" },
   { id: "7680618022855347478", img: t3, title: "¿Pincel o paleta? Sé sincera", tag: "Taller", ig: "https://www.instagram.com/p/DcwSRjLsHK9/" },
   { id: "7670952693392870678", img: t4, title: "Cuéntame cómo es tu sketchbook", tag: "Taller", ig: "https://www.instagram.com/p/DbtPf1QNz8t/" },
-  { id: "7192895892561743110", img: t5, title: "Lo que dibujo cuando tengo un bloqueo", tag: "Ilustración", ig: "" },
-  { id: "7194865081681775877", img: t6, title: "¿A alguien más le pasa esto?", tag: "Ilustración", ig: "" },
+  { id: "7192895892561743110", img: t5, title: "Lo que dibujo cuando tengo un bloqueo", tag: "Ilustración" },
+  { id: "7194865081681775877", img: t6, title: "¿A alguien más le pasa esto?", tag: "Ilustración" },
 ];
 ---
 <Base title="Inicio">
@@ -94,13 +94,13 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
         </a>
       </div>
       <div class="follow">
-        <a class="button dark" href={tiktok} target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2.3 1.7 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.3v6.4a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6 0 .9.1v3.2a2.6 2.6 0 1 0 1.7 2.4V3h3.1Z"/></svg>
-          @sinuosa.sanchez
+        <a class="button dark" href={TIKTOK_PROFILE} target="_blank" rel="noopener">
+          <SocialIcon name="tiktok" />
+          TikTok · {HANDLE}
         </a>
-        <a class="button secondary" href={instagram} target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          Instagram
+        <a class="button secondary" href={INSTAGRAM_PROFILE} target="_blank" rel="noopener">
+          <SocialIcon name="instagram" />
+          Instagram · {HANDLE}
         </a>
       </div>
     </div>
@@ -108,29 +108,8 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
     <ul class="reel">
       {videos.map((v, i) => (
         <li class="reel-item" style={`--tilt: ${i % 2 === 0 ? -1.2 : 1.2}deg`}>
-          {v.ig ? (
-            <div class="reel-card has-choice">
-              <button class="reel-open" type="button" aria-haspopup="true" aria-expanded="false" aria-label={`Ver «${v.title}»`}>
-                <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} fallbackFormat="jpg" alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
-                <span class="reel-play" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
-                </span>
-                <span class="reel-meta">
-                  <span class="reel-tag">{v.tag}</span>
-                  <span class="reel-title">{v.title}</span>
-                </span>
-              </button>
-              <div class="reel-choice" hidden>
-                <p class="reel-choice-title">¿Dónde lo ves?</p>
-                <a class="button dark" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">TikTok</a>
-                <a class="button" href={v.ig} target="_blank" rel="noopener">Instagram</a>
-                <button class="reel-close" type="button" aria-label="Cerrar">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <a class="reel-card" href={`${tiktok}/video/${v.id}`} target="_blank" rel="noopener">
+          <div class="reel-card has-choice">
+            <button class="reel-open" type="button" aria-haspopup="true" aria-expanded="false" aria-label={`Ver «${v.title}»`}>
               <Picture src={v.img} widths={[320, 480, 640]} sizes="(min-width: 721px) 30vw, 70vw" formats={["avif", "webp"]} fallbackFormat="jpg" alt="" loading="lazy" class="reel-img" pictureAttributes={{ class: "reel-pic" }} />
               <span class="reel-play" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
@@ -139,8 +118,16 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
                 <span class="reel-tag">{v.tag}</span>
                 <span class="reel-title">{v.title}</span>
               </span>
-            </a>
-          )}
+            </button>
+            <div class="reel-choice" hidden>
+              <p class="reel-choice-title">¿Dónde lo ves?</p>
+              <a class="button dark" href={tiktokVideo(v.id)} target="_blank" rel="noopener"><SocialIcon name="tiktok" /> Ver en TikTok</a>
+              <a class="button" href={instagramOr(v.ig)} target="_blank" rel="noopener"><SocialIcon name="instagram" /> Ver en Instagram</a>
+              <button class="reel-close" type="button" aria-label="Cerrar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
@@ -406,7 +393,7 @@ const videos: { id: string; img: ImageMetadata; title: string; tag: string; ig?:
   }
   .reel-choice[hidden] { display: none; }
   .reel-choice-title { margin: 0 0 0.3rem; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; }
-  .reel-choice .button { width: 100%; text-align: center; }
+  .reel-choice .button { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
   .reel-close {
     position: absolute; top: 0.75rem; right: 0.75rem;
     width: 2.2rem; height: 2.2rem; border-radius: 999px; border: 0; background: var(--ink); color: var(--cream);

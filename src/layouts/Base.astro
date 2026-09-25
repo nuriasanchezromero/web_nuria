@@ -1,6 +1,8 @@
 ---
 import { Font, getImage } from "astro:assets";
 import heroWide from "../assets/hero-wide.jpg";
+import SocialIcon from "../components/SocialIcon.astro";
+import { TIKTOK_PROFILE, INSTAGRAM_PROFILE } from "../lib/social";
 
 interface Props {
   title: string;
@@ -91,6 +93,10 @@ const ariaCurrent = (href: string) =>
         <a href="/sobre/">Sobre Núria</a>
         <a href="/contacto/">Contacto</a>
         <a href="/cuenta">Acceder</a>
+      </nav>
+      <nav class="social" aria-label="Redes">
+        <a href={TIKTOK_PROFILE} target="_blank" rel="noopener"><SocialIcon name="tiktok" size={16} /> TikTok</a>
+        <a href={INSTAGRAM_PROFILE} target="_blank" rel="noopener"><SocialIcon name="instagram" size={16} /> Instagram</a>
       </nav>
     </footer>
   </body>
@@ -281,6 +287,7 @@ const ariaCurrent = (href: string) =>
   .site-footer nav { display: flex; flex-wrap: wrap; column-gap: 1.4rem; row-gap: 0.5rem; }
   .site-footer a { color: var(--muted); text-decoration: none; white-space: nowrap; }
   .site-footer a:hover { color: var(--ink); }
+  .site-footer .social a { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--ink); font-weight: 500; }
 
   @media (max-width: 720px) {
     /* Fila 1: marca y Acceder. Fila 2: los enlaces, a todo el ancho. */

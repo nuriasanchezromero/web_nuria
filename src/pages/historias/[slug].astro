@@ -2,6 +2,8 @@
 import { getCollection, render } from "astro:content";
 import { Picture } from "astro:assets";
 import Base from "../../layouts/Base.astro";
+import SocialIcon from "../../components/SocialIcon.astro";
+import { instagramOr } from "../../lib/social";
 
 export async function getStaticPaths() {
   const all = (await getCollection("historias")).sort(
@@ -53,10 +55,8 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
         </blockquote>
 
         <div class="story-actions">
-          <a class="button dark" href={d.tiktok} target="_blank" rel="noopener">Ver en TikTok</a>
-          {d.instagram && (
-            <a class="button" href={d.instagram} target="_blank" rel="noopener">Ver en Instagram</a>
-          )}
+          <a class="button dark" href={d.tiktok} target="_blank" rel="noopener"><SocialIcon name="tiktok" /> Ver en TikTok</a>
+          <a class="button" href={instagramOr(d.instagram)} target="_blank" rel="noopener"><SocialIcon name="instagram" /> Ver en Instagram</a>
         </div>
 
         <nav class="story-nav" aria-label="Otras historias">
@@ -120,6 +120,7 @@ const fecha = d.date.toLocaleDateString("es-ES", { day: "numeric", month: "long"
   .caption p { margin: 0; overflow-wrap: anywhere; }
 
   .story-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 2rem; }
+  .story-actions .button { display: inline-flex; align-items: center; gap: 0.5rem; }
   .story-actions .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
   .story-nav {
