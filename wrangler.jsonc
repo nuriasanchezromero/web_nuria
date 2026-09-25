@@ -3,19 +3,21 @@
 	"name": "nuriasanchezromero",
 	"compatibility_date": "2026-09-08",
 	"compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	// Envoltorio propio sobre el entrypoint de @astrojs/cloudflare:
+	// redirección HTTP -> HTTPS y cabeceras de seguridad en todas las respuestas.
+	"main": "src/worker.ts",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		// Todo pasa por el Worker (cabeceras + redirección HTTPS) salvo
+		// /_astro/*, los assets con hash inmutable, que sirve la capa de assets
+		// directamente con caché de borde y las reglas de public/_headers.
+		"run_worker_first": ["/*", "!/_astro/*"]
 	},
 	"routes": [
 		{ "pattern": "nuriasanchezromero.com", "custom_domain": true },
 		{ "pattern": "www.nuriasanchezromero.com", "custom_domain": true }
 	],
-	"vars": {
-		"PUBLIC_SUPABASE_URL": "",
-		"PUBLIC_SUPABASE_ANON_KEY": ""
-	},
 	"observability": {
 		"enabled": true
 	}

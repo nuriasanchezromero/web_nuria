@@ -7,11 +7,26 @@ type Ctx = {
   cookies: AstroCookies;
 };
 
-/** Public Supabase settings, read from the Cloudflare runtime (wrangler.jsonc vars / .dev.vars). */
+/**
+ * Configuración de Supabase. Orden de búsqueda:
+ *  1. entorno del Worker (`wrangler secret` en producción, .dev.vars en local):
+ *     SUPABASE_URL / SUPABASE_ANON_KEY, con PUBLIC_* como alternativa;
+ *  2. import.meta.env (archivo .env de Astro), mismos nombres.
+ */
 export function getSupabaseConfig() {
   const runtimeEnv = env as unknown as Record<string, string | undefined>;
-  const url = runtimeEnv.PUBLIC_SUPABASE_URL || import.meta.env.PUBLIC_SUPABASE_URL || "";
-  const anonKey = runtimeEnv.PUBLIC_SUPABASE_ANON_KEY || import.meta.env.PUBLIC_SUPABASE_ANON_KEY || "";
+  const url =
+    runtimeEnv.SUPABASE_URL ||
+    runtimeEnv.PUBLIC_SUPABASE_URL ||
+    import.meta.env.SUPABASE_URL ||
+    import.meta.env.PUBLIC_SUPABASE_URL ||
+    "";
+  const anonKey =
+    runtimeEnv.SUPABASE_ANON_KEY ||
+    runtimeEnv.PUBLIC_SUPABASE_ANON_KEY ||
+    import.meta.env.SUPABASE_ANON_KEY ||
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY ||
+    "";
   return { url, anonKey, configured: Boolean(url && anonKey) };
 }
 
@@ -41,4 +56,19 @@ export function createSupabase({ request, cookies }: Ctx) {
       },
     },
   });
+}
+
+/** Destino por defecto tras iniciar sesión. */
+export const DEFAULT_NEXT = "/cuenta";
+
+/**
+ * Valida un destino `next` para evitar open redirects: solo rutas
+ * relativas al propio sitio ("/algo"). Cualquier otra cosa -> /cuenta.
+ */
+export function safeNext(value: string | null | undefined): string {
+  if (!value) return DEFAULT_NEXT;
+  if (!value.startsWith("/")) return DEFAULT_NEXT;
+  if (value.startsWith("//") || value.startsWith("/\\")) return DEFAULT_NEXT;
+  if (value.includes(":") || /\s/.test(value)) return DEFAULT_NEXT;
+  return value;
 }

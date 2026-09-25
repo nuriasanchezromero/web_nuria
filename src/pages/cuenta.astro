@@ -1,15 +1,12 @@
 ---
 export const prerender = false;
 import Base from "../layouts/Base.astro";
-import { createSupabase } from "../lib/supabase";
 
-const supabase = createSupabase(Astro);
-if (!supabase) return Astro.redirect("/login");
+// src/middleware.ts ya ha comprobado la sesión y rellenado Astro.locals.user.
+// Redirección defensiva por si la ruta se sirviera sin pasar por él.
+const user = Astro.locals.user;
+if (!user) return Astro.redirect(`/login?next=${encodeURIComponent(Astro.url.pathname)}`);
 
-const { data } = await supabase.auth.getUser();
-if (!data.user) return Astro.redirect("/login");
-
-const user = data.user;
 const since = user.created_at ? new Date(user.created_at).toLocaleDateString("es-ES") : "";
 ---
 <Base title="Tu cuenta">

@@ -1,4 +1,8 @@
-# Copia este archivo como .dev.vars para desarrollo local (no se sube a git).
-# Los valores están en Supabase > Project Settings > API.
+# Variables locales para `astro dev` y `wrangler dev` (el runtime de Cloudflare
+# las lee como si fueran secretos del Worker). Copia este archivo como
+# .dev.vars y rellena los valores; .dev.vars no se sube a git.
+# En producción los mismos nombres se crean con `wrangler secret` desde
+# GitHub Actions (.github/workflows/deploy.yml).
+# Valores: Supabase > Project Settings > API.
 SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 SUPABASE_ANON_KEY=eyJ...

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cuenta
+Disallow: /api/
+Disallow: /auth/
+Disallow: /login
+Sitemap: https://nuriasanchezromero.com/sitemap-index.xml

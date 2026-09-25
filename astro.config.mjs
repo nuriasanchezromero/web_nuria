@@ -1,6 +1,10 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
+
+// Rutas privadas o técnicas que no deben aparecer en el sitemap.
+const PRIVATE_PATH = /^\/(login|cuenta|api|auth)(\/|$)/;
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,6 +12,21 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: { build: 'compile', runtime: 'cloudflare-binding' },
   }),
+  // La sesión la gestiona Supabase en cookies; sin esto el adaptador
+  // aprovisiona un KV "SESSION" que no usamos.
+  session: false,
+  integrations: [
+    sitemap({
+      filter: (page) => !PRIVATE_PATH.test(new URL(page).pathname),
+    }),
+  ],
+  vite: {
+    build: {
+      // Scripts siempre como archivos externos (<script src>), nunca inline:
+      // lo exige la CSP script-src 'self'.
+      assetsInlineLimit: 0,
+    },
+  },
   fonts: [
     {
       name: 'Bricolage Grotesque',

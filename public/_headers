@@ -1,0 +1,22 @@
+# Defensa en profundidad para lo que sirva directamente la capa de assets.
+# La fuente de verdad es src/security-headers.ts (aplicada por src/worker.ts).
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
+# Assets con hash: una sola sección /_astro/* (wrangler se queda solo con la
+# última sección de cada ruta, así que el Cache-Control inmutable va aquí y
+# @astrojs/cloudflare no añade la suya). Las reglas son acumulativas: el "!"
+# evita que Cloudflare devuelva "nosniff, nosniff" en vez de un único valor.
+/_astro/*
+  ! X-Content-Type-Options
+  ! Cross-Origin-Resource-Policy
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+  Cross-Origin-Resource-Policy: same-origin

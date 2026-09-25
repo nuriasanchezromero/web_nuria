@@ -2,6 +2,7 @@
   "name": "nuriasanchezromero",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
   "engines": {
     "node": ">=22.12.0"
   },
@@ -10,10 +11,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "deploy": "astro build && wrangler deploy --config dist/server/wrangler.json",
     "generate-types": "wrangler types"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",
+    "@astrojs/sitemap": "^3.7.4",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
     "astro": "^7.3.2",
@@ -21,5 +25,9 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
   }
 }

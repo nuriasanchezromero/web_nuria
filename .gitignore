@@ -35,3 +35,6 @@ design/*.html
 
 # wrangler local state
 .wrangler/
+
+# worktrees de agentes
+.claude/worktrees/
