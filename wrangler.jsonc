@@ -3,19 +3,27 @@
 	"name": "nuriasanchezromero",
 	"compatibility_date": "2026-09-08",
 	"compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
-	// Envoltorio propio sobre el entrypoint de @astrojs/cloudflare:
-	// redirección HTTP -> HTTPS y cabeceras de seguridad en todas las respuestas.
+	// Envoltorio propio sobre el entrypoint de @astrojs/cloudflare: redirecciones
+	// (www -> dominio principal, HTTP -> HTTPS) y cabeceras de seguridad en las
+	// respuestas que genera el Worker.
 	"main": "src/worker.ts",
 	"assets": {
 		"directory": "./dist",
-		"binding": "ASSETS",
-		// Todo pasa por el Worker (cabeceras + redirección HTTPS) salvo
-		// /_astro/*, los assets con hash inmutable, que sirve la capa de assets
-		// directamente con caché de borde y las reglas de public/_headers.
-		"run_worker_first": ["/*", "!/_astro/*"]
+		"binding": "ASSETS"
+		// Sin "run_worker_first", a propósito: los archivos que existen (páginas
+		// prerenderizadas, robots.txt, sitemap, favicons, /_astro/*) los sirve la
+		// capa de assets sin ejecutar el Worker, con las cabeceras de
+		// public/_headers. Es gratis e ilimitado y sigue funcionando aunque se
+		// agote la cuota diaria de Workers Free. El Worker solo recibe las rutas
+		// bajo demanda (/login, /cuenta, /api/*, /auth/*) y las URLs que no
+		// existen (404). Por eso la redirección a HTTPS y de www al dominio
+		// principal de las páginas estáticas depende de dos ajustes de zona
+		// obligatorios: ver SECURITY.md, sección 2.
 	},
 	"routes": [
 		{ "pattern": "nuriasanchezromero.com", "custom_domain": true },
+		// www se mantiene vinculado para poder servir su redirección al dominio
+		// principal (src/worker.ts y la Redirect Rule de SECURITY.md).
 		{ "pattern": "www.nuriasanchezromero.com", "custom_domain": true }
 	],
 	"observability": {

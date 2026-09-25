@@ -17,7 +17,18 @@ const error = Astro.url.searchParams.get("error");
 const messages: Record<string, string> = {
   email: "Escribe un email válido.",
   envio: "No hemos podido enviar el enlace. Inténtalo de nuevo en un momento.",
-  enlace: "El enlace no es válido o ha caducado. Pide uno nuevo.",
+  // Supabase ha rechazado la petición por límite de envíos (429) y no ha
+  // salido ningún correo nuevo. Puede que el de una petición anterior sí haya
+  // llegado: se pide revisarlo y esperar, no reintentar (ver
+  // src/pages/api/auth/login.ts).
+  espera:
+    "Ahora mismo no podemos enviar otro enlace: se han pedido demasiados en muy poco tiempo. Si ya te ha llegado uno, ábrelo en el navegador desde el que lo pediste (mira también en la carpeta de spam). Si no, espera unos minutos antes de volver a pedirlo.",
+  // Un enlace vale una sola vez (Supabase lo gasta al abrirlo, en cualquier
+  // navegador) y solo en el navegador que lo pidió (PKCE: ver
+  // src/pages/api/auth/callback.ts). Reabrir el mismo enlace nunca funciona:
+  // la única salida es pedir otro y abrirlo en el navegador desde el que se pide.
+  enlace:
+    "Este enlace ya no sirve: cada enlace vale una sola vez y solo en el navegador desde el que se pidió. Pide uno nuevo aquí abajo y ábrelo en este mismo navegador. Si tu app de correo abre los enlaces dentro de la app, pídelo desde Safari o Chrome y, en el correo, mantén pulsado el enlace para abrirlo allí.",
   config: "El acceso todavía no está activado.",
 };
 ---

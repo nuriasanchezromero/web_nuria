@@ -3,8 +3,8 @@ import { createSupabase } from "./lib/supabase";
 
 /**
  * Solo se ejecuta en rutas bajo demanda (login, cuenta, api/auth, auth).
- * Las páginas prerenderizadas las sirve el binding ASSETS antes de llegar
- * aquí; sus cabeceras de seguridad las pone src/worker.ts.
+ * Las páginas prerenderizadas las sirve la capa de assets de Cloudflare sin
+ * ejecutar el Worker; sus cabeceras de seguridad vienen de public/_headers.
  */
 
 const PROTECTED = (pathname: string) => pathname === "/cuenta" || pathname.startsWith("/cuenta/");

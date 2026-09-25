@@ -1,5 +1,8 @@
-# Defensa en profundidad para lo que sirva directamente la capa de assets.
-# La fuente de verdad es src/security-headers.ts (aplicada por src/worker.ts).
+# Cabeceras de todo lo que sirve directamente la capa de assets, sin ejecutar
+# el Worker: páginas prerenderizadas, robots.txt, sitemap, favicons,
+# security.txt y /_astro/*. Es la única fuente de cabeceras de esos archivos.
+# Mismo conjunto que src/security-headers.ts (que el Worker aplica a sus
+# propias respuestas): si cambias uno, cambia el otro.
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
