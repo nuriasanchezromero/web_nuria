@@ -16,11 +16,11 @@
     "generate-types": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.1",
+    "@astrojs/cloudflare": "^14.3.2",
     "@astrojs/sitemap": "^3.7.4",
     "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.116.0",
-    "astro": "^7.3.2",
+    "@supabase/supabase-js": "^2.117.0",
+    "astro": "^7.3.3",
     "wrangler": "^4.130.0"
   },
   "allowScripts": {
