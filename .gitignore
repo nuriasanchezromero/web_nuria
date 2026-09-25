@@ -32,3 +32,6 @@ Sinuosa_Klimt_CapCut_v3/
 # seeded design canvas output (regenerated from design/*.dc.html)
 design/*.html
 !design/*.dc.html
+
+# wrangler local state
+.wrangler/
