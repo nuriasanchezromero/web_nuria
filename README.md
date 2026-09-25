@@ -25,10 +25,10 @@ autoalojadas (Bricolage Grotesque, DM Sans y Rubik, configuradas en `astro.confi
 | Ruta | Archivo | Tipo |
 |---|---|---|
 | `/` | `src/pages/index.astro` | Pública, prerenderizada |
-| `/sobre` | `src/pages/sobre.astro` | Pública, prerenderizada |
-| `/contacto` | `src/pages/contacto.astro` | Pública, prerenderizada |
-| `/historias` | `src/pages/historias/` | Pública, prerenderizada. Índice de historias |
-| `/historias/<slug>` | `src/pages/historias/` | Pública, prerenderizada. Una por archivo en `src/content/historias/` |
+| `/sobre/` | `src/pages/sobre.astro` | Pública, prerenderizada |
+| `/contacto/` | `src/pages/contacto.astro` | Pública, prerenderizada |
+| `/historias/` | `src/pages/historias/` | Pública, prerenderizada. Índice de historias |
+| `/historias/<slug>/` | `src/pages/historias/` | Pública, prerenderizada. Una por archivo en `src/content/historias/` |
 | `/404` | `src/pages/404.astro` | Página de error, prerenderizada |
 | `/login` | `src/pages/login.astro` | Bajo demanda. Formulario de email; acepta `?next=/ruta` para volver a donde se iba |
 | `/cuenta` | `src/pages/cuenta.astro` | Bajo demanda. Zona privada: por ahora solo confirma el acceso y permite cerrar sesión |
